@@ -1,0 +1,19 @@
+<<<<<<< HEAD
+{% extends "empMain.html" %}
+
+{% block content %}
+
+<h3>My Documents </h3>
+
+=======
+{% extends "index.html" %}
+
+{% block content %}
+
+>>>>>>> origin/master
+	{% for doc in docs %}
+	
+		<li><a href='{% url "documentDetail" doc.id %}'>{{ doc.name }} {{ doc.id }}</a></li>
+		
+	{% endfor %}
+{% endblock %}

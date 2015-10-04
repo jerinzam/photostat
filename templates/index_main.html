@@ -1,0 +1,57 @@
+	<html>
+	<head>
+		<title>PRINTO</title>
+		<style>
+		#form_reg { display: none };
+		</style> 
+	</head>
+	<body>
+		{% load staticfiles %}
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js" type="text/javascript"></script>
+		<script  type="text/javascript">
+		 $(document).ready(function(){
+		    
+		    $(".show_form").click(function()
+	{
+
+
+     		$("#form_reg").toggle();
+		return false;
+		     
+		 }); });
+
+		</script>
+
+		
+		<div id="content">
+		    
+		    <a href="#" class ="show_form">Click Here if you want to do business on Printo </a> 
+		    
+		    or if you are a student <br>
+		    
+		    FB Google 
+		    
+		    
+		<div id ="form_reg">	
+			{% if form.errors %}
+<p class="error"> Please correct the errors below:
+{{ form.non_field_errors }}</p>
+{% endif %}
+<form enctype="multipart/form-data"  method="post" action=""> {% csrf_token %}
+<dl>
+{% for field in form %}
+    <dt>{{ field.label_tag }}{% if field.field.required %}*{% endif %}</dt>
+    <dd>{{ field }}</dd>
+    {% if field.help_text %}<dd>{{ field.help_text|safe }} </dd><br>{% endif %}
+    {% if field.errors %}<dd class="myerrors">{{ field.errors }}</dd>{% endif %}
+{% endfor %}
+</dl>
+<input type="submit"  name="Publish"/>
+</form>
+			</div>
+		</div>
+		{% block javascript %}
+	    {% endblock %}
+
+	</body>
+	</html>

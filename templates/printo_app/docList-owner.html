@@ -1,0 +1,12 @@
+{% extends "ownerMain.html" %}
+
+{% block content %}
+
+<h3>My Documents </h3>
+
+	{% for doc in docs %}
+	
+		<li><a href='{% url "documentDetail" doc.id %}'>{{ doc.name }} {{ doc.id }}</a></li>
+		
+	{% endfor %}
+{% endblock %}

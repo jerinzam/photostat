@@ -1,0 +1,18 @@
+{% extends "ownerMain.html" %}
+
+{% block content %}
+
+	
+	
+	<h3>Upload a DOCUMENT</h3>
+	
+	<form action="{% url 'documentUpload' %}" enctype="multipart/form-data" method="post">
+	    {% csrf_token %}
+
+	  {{ docUploadForm.as_ul }}
+
+	    <input type="submit" value="Submit" />
+	</form>
+		
+	
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "ownerMain.html" %}
+
+{% block content %}
+	<h3> My Shops </h3>
+	{% for shop in shops %}
+	
+		<li><a href='{% url "shopPage" shop.id %}'>{{ shop.shopName }} {{ shop.owner }} {{shop.employee}}{% for service in shop.services.all %}
+		  {{service}} 
+		{% endfor %}</a></li>
+		
+		
+	{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,177 @@
+[
+  {
+    "model": "printo_app.University",
+    "pk": 1,
+    "fields": {
+      "name": "Kerala University",
+      "slug":"Ke",
+      "code": "0001"
+    }
+  },
+  {
+    "model": "printo_app.University",
+    "pk": 2,
+    "fields": {
+      "name": "Calicut University",
+      "slug":"ca",
+      "code": "0002"
+    }
+  },
+  {
+    "model": "printo_app.University",
+    "pk": 3,
+    "fields": {
+      "name": "M.G University",
+      "slug":"mg",
+      "code": "0003"
+    }
+  },
+  {
+    "model": "printo_app.University",
+    "pk": 4,
+    "fields": {
+      "name": "CUSAT University",
+      "slug":"cu",
+      "code": "0004"
+    }
+  },
+  {
+    "model": "printo_app.Course",
+    "pk": 1,
+    "fields": {
+      "name": "Btech",
+      "slug":"bt"
+    }
+  },
+  {
+    "model": "printo_app.Course",
+    "pk": 2,
+    "fields": {
+      "name": "Mtech",
+      "slug":"mt"
+    }
+  },
+  {
+    "model": "printo_app.College",
+    "pk": 1,
+    "fields": {
+      "name": "Tkm",
+      "slug": "tkm",
+      "university": 1
+    }
+  },
+  {
+    "model": "printo_app.College",
+    "pk": 2,
+    "fields": {
+      "name": "CET",
+      "slug": "cet",
+      "university": 1
+    }
+  },
+  {
+    "model": "printo_app.DocType",
+    "pk": 1,
+    "fields": {
+      "docType": "Notes",
+      "slug": "notes"
+    }
+  },
+  {
+    "model": "printo_app.DocType",
+    "pk": 2,
+    "fields": {
+      "docType": "Textbook",
+      "slug": "textbook"
+    }
+  },
+  {
+    "model": "printo_app.DocType",
+    "pk": 3,
+    "fields": {
+      "docType": "Project",
+      "slug": "project"
+    }
+  },
+  {
+    "model": "printo_app.Publisher",
+    "pk": 1,
+    "fields": {
+      "name": "Oxford",
+      "slug": "oxford"
+    }
+  },
+  {
+    "model": "printo_app.Publisher",
+    "pk": 2,
+    "fields": {
+      "name": "Khanna",
+      "slug": "khanna"
+    }
+  },
+  {
+    "model": "printo_app.Publisher",
+    "pk": 3,
+    "fields": {
+      "name": "Cambridge",
+      "slug": "cambridge"
+    }
+  },
+  {
+    "model": "printo_app.Branch",
+    "pk": 1,
+    "fields": {
+      "name": "ECE",
+      "course":1
+    }
+  },
+  {
+    "model": "printo_app.Branch",
+    "pk": 2,
+    "fields": {
+      "name": "EEE",
+      "course": 1
+    }
+  },
+  {
+    "model": "printo_app.Tag",
+    "pk": 1,
+    "fields": {
+      "name": "tkm",
+      "slug": "km"
+    }
+  },
+  {
+    "model": "printo_app.Tag",
+    "pk": 2,
+    "fields": {
+      "name": "parvathy",
+      "slug": "par"
+    }
+  },
+  {
+    "model": "printo_app.Tag",
+    "pk": 3,
+    "fields": {
+      "name": "principle of EM theory",
+      "slug": "PoT"
+    }
+  },
+  {
+    "model": "printo_app.Topic",
+    "pk": 1,
+    "fields": {
+      "name": "semiconductors",
+      "slug": "sc"
+    }
+  },
+  {
+    "model": "printo_app.Topic",
+    "pk": 2,
+    "fields": {
+      "name": "antenna",
+      "slug": "ant"
+    }
+  }
+
+]

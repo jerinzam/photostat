@@ -1,0 +1,22 @@
+<<<<<<< HEAD
+{% extends "empMain.html" %}
+=======
+{% extends "index.html" %}
+>>>>>>> origin/master
+
+{% block content %}
+	{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+	<form action='{% url "documentEdit" doc.id %}' method="POST">
+		{% csrf_token %}
+		{{ docEditForm.as_p }}
+		
+		<input type="submit" value="Save Changes"/>
+	</form>
+
+{% endblock %}

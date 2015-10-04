@@ -1,0 +1,24 @@
+<<<<<<< HEAD
+{% extends "empMain.html" %}
+
+{% block content %}
+	
+	<h3>Shop Profile</h3>
+=======
+{% extends "index.html" %}
+
+{% block content %}
+
+>>>>>>> origin/master
+	<form action='{% url "shopEditSave" %}' method="POST">
+		{% csrf_token %}
+		<p> {{ shopForm.owner.label}} : <input value="{{shopForm.instance.owner}}" disabled/> </p>
+		<p> {{ shopForm.employee.label}} : <input value="{{shopForm.instance.employee}}" disabled/> </p>
+		<p> {{ shopForm.shopName.label}} : <input value="{{shopForm.shopName.value}}" disabled/> </p>
+		{{ shopForm.as_p }}
+		
+		<input type="submit" value="Save Changes"/>
+	</form>
+
+
+{% endblock %}
