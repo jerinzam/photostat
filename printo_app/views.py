@@ -165,10 +165,7 @@ class ShopForm(forms.Form):
 def shopCreate(request):
     
     
-    form = ShopForm()
-    context = {"form":form}
-    return render(request,'printo_app/shopCreate.html',context)
-    
+
     
     uprofile =get_object_or_404(UserProfile, user=request.user)
     if uprofile.userType==1:
@@ -177,14 +174,27 @@ def shopCreate(request):
 	return HttpResponse("You don't have permission")
 	
     if(request.method=='POST'):
-	shopform = ShopCreateForm(request.POST,prefix='shopProfile')
+	form = ShopCreateForm(request.POST)
 		
 	if(userform.is_valid):
-	    user = userform.save()
-	    userprofile = UserProfile()
-	    userprofile.user = user
-	    userprofile.userType = 2
-	    userprofile.save()
+	    username = form.cleaned_data.get("username", None)
+	    password = form.cleaned_data.get("password", None)
+	    mobile = form.cleaned_data.get("mobile", None)
+	    email = form.cleaned_data.get("email", None)
+	    if email == None:
+		email = request.user.email
+	    if username != None:
+		user = User.objects.create_user(username,email, password)
+		
+		userprofile = UserProfile()
+		userprofile.user = user
+		userprofile.userType = 2
+		if mobile !=None:
+		    userprofile.mobile = mobile 
+		userprofile.save()
+		
+	    shop = Shop()
+	    shop.organization
 	    shopprofile = shopform.save(commit=False)
 	    shopprofile.employee = user
 	    shopprofile.owner = Organization.objects.get(owner = request.user)
@@ -282,3 +292,16 @@ def docUploadOwner(request):
 def indexOwner(request):
     context = {}
     return render(request,'ownerMain.html',context)
+
+import json
+
+def get_colleges(request):
+    p={}
+    for c in College.objects.all():
+	p[c.name] =(str(c.latitude), str(c.longitude))
+    return HttpResponse(json.dumps(p), content_type="application/json")
+def get_cities(request):
+    p={}
+    for c in City.objects.all():
+	p[c.name] =(str(c.latitude), str(c.longitude))
+    return HttpResponse(json.dumps(p), content_type="application/json")

@@ -4,6 +4,8 @@
 
 		<style>
 		#details_tag{ display: none };
+		
+		#map_canvas { height:300px; width:500px;};
 		</style> 
 {% endblock %}
 
@@ -30,10 +32,14 @@ Can you choose the Nearest
 
 Choose any one of them <br>
 
-<label for="id_nearest_college">Nearest college:</label> <input id="id_nearest_college" maxlength="200" name="nearest_college" type="text" /> OR <label for="id_nearest_town">Nearest town:</label> <input id="id_nearest_town" maxlength="200" name="nearest_town" type="text" /></p>
-
+<label for="id_nearest_college">Nearest college:</label> <input id="id_nearest_college" maxlength="200" name="nearest_college" type="text" /> OR <label for="id_nearest_town">Nearest town:</label> 
+<input id="id_nearest_town" maxlength="200" name="nearest_town" type="text" /></p>
+<div id="map_canvas" style="width:50%; height:30%">
+	</div>
 
 <div id="details_tag">
+    <p><label for="id_latitude">Latitude:</label> <input id="id_latitude" maxlength="14" name="latitude" type="text" /></p>
+<p><label for="id_longitude">Longitude:</label> <input class="mandatory" id="id_longitude" name="Longtitude" placeholder="Longitude" type="text" /></p>
 <p><label for="id_mobile">Mobile:</label> <input id="id_mobile" maxlength="14" name="mobile" type="text" /></p>
 <p><label for="id_username">Username:</label> <input class="mandatory" id="id_username" name="username" placeholder="User Name" type="text" /></p>
 <p><label for="id_password">Password:</label> <input class="mandatory" id="id_password" name="password" placeholder="Password Again" type="password" /></p>
@@ -45,9 +51,81 @@ Choose any one of them <br>
 	</form>
 	</div>	
 	
+	
+	
 {% endblock %}
 
 
-{% block ajax %}
+{% block javascript %}
+<script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?AIzaSyBCSR9MrS1OxOiLSezXTOFKtkpDZAzGruE&sensor=true"></script>
 
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  
+  <script>
+  $(function() {
+    $.getJSON("/printo-app/get_colleges/", function (dictionary) {
+  var keys = [];
+for (var key in dictionary) {
+  if (dictionary.hasOwnProperty(key)) {
+    keys.push(key);
+  }
+}
+
+    $( "#id_nearest_college" ).autocomplete({
+	source: keys,
+	 select: function( event, ui ) {
+	    initialize(dictionary[ui.item.value]);
+	    $('#details_tag').toggle();
+	}
+    }); }
+  ); 
+  
+      $.getJSON("/printo-app/get_cities/", function (dictionary) {
+  var keys = [];
+for (var key in dictionary) {
+  if (dictionary.hasOwnProperty(key)) {
+    keys.push(key);
+  }
+}
+
+    $( "#id_nearest_town" ).autocomplete({
+	source: keys,
+	 select: function( event, ui ) {
+	    initialize(dictionary[ui.item.value]);
+	    $('#details_tag').toggle();
+	}
+    }); }
+  );
+  
+  
+  
+  });
+  
+   function initialize(cords) {
+     
+         var lat = cords[0];
+         var lng = cords[1];
+      var myOptions = {
+         center: new google.maps.LatLng(lat, lng),
+         zoom: 8,
+         mapTypeId: google.maps.MapTypeId.ROADMAP
+       };
+       var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
+       var myMarkerLatlng = new google.maps.LatLng(lat,lng);
+       var marker = new google.maps.Marker({
+           position: myMarkerLatlng,
+	     draggable: true,
+           map: map,
+           title: 'Hello World!'
+       });
+       
+       google.maps.event.addListener(marker, 'click', function (event) {
+    document.getElementById("id_latitude").value = event.latLng.lat();
+    document.getElementById("id_longitude").value = event.latLng.lng();
+});
+    }
+  
+  </script>
 {% endblock %}
