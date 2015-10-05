@@ -22,4 +22,7 @@ urlpatterns = [
 	url(r'^shop-list/shop/(?P<shopid>\d+)/$',views.indexEmp,name="shopPage"),
 	url(r'^shop-create/$',views.shopCreate,name="shopCreate"),
 	url(r'^order-list/$',views.ordersList,name="ordersList"),
+    url(r'^get_colleges/$',views.get_colleges,name="get_colleges"),
+    url(r'^get_cities/$',views.get_cities,name="get_cities"),
+
 	]

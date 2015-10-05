@@ -59,19 +59,21 @@ class Shop(models.Model):
     shopName = models.CharField(max_length=100)
     telephone = models.CharField(max_length=14, blank=True)
     email = models.EmailField(null=True,blank=True)
-    orderCount = models.IntegerField(default=0)
     createdOn = models.DateTimeField(auto_now_add=True,null=True)
     rate = models.DecimalField(max_digits=4,decimal_places=2,default=0.0)
     services = models.ManyToManyField(Service, blank=True)
     longitude = models.DecimalField(max_digits=11, decimal_places=7, null=True)
     latitude =models.DecimalField(max_digits=11, decimal_places=7, null=True)
+    is_active = models.BooleanField(default=False)
     
     def __str__(self):
         return self.shopName
 class City(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(editable=False,unique=True)
-    
+    slug = models.SlugField( unique=True)
+    longitude = models.DecimalField(max_digits=11, decimal_places=7, null=True)
+    latitude =models.DecimalField(max_digits=11, decimal_places=7, null=True)
+   
     def __str__(self):
 	return self.name
 	
@@ -133,6 +135,9 @@ class College(models.Model):
     name = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(unique=True)
     university = models.ForeignKey(University, null=True)
+    longitude = models.DecimalField(max_digits=11, decimal_places=7, null=True)
+    latitude =models.DecimalField(max_digits=11, decimal_places=7, null=True)
+
     def save(self):
         if not self.id:
             self.slug = slugify(self.name)
