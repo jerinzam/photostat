@@ -1,15 +1,15 @@
-<<<<<<< HEAD
+
 {% extends "empMain.html" %}
 
 {% block content %}
 	
 	<h3>Shop Profile</h3>
-=======
+
 {% extends "index.html" %}
 
 {% block content %}
 
->>>>>>> origin/master
+
 	<form action='{% url "shopEditSave" %}' method="POST">
 		{% csrf_token %}
 		<p> {{ shopForm.owner.label}} : <input value="{{shopForm.instance.owner}}" disabled/> </p>

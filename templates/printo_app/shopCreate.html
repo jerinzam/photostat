@@ -15,15 +15,16 @@
 	
 	<h3> Create a Shop </h3>
 	
-	<form action="{% url 'shopCreate' %}" enctype="multipart/form-data" method="post">
+	<form id="form" action="{% url 'shopCreate' %}" enctype="multipart/form-data" method="post">
 	    {% csrf_token %}
-	    <p><label for="id_shopName">Shopname:</label> <input id="id_shopName" maxlength="100" name="shopName" type="text" /></p>
+
+	    <p><label for="id_shopName">Shopname:</label> <input id="id_shopName" maxlength="100" name="shopName" type="text" placeholder="shop name"/></p>
 
 <p><label for="id_address">Address:</label> <textarea cols="40" id="id_address" name="address" rows="10">
 </textarea></p>
 
 
-<p><label for="id_pincode">Pincode:</label> <input class="mandatory" id="id_pincode" maxlength="6" name="pincode" placeholder="pincode" type="password" /></p>
+<p><label for="id_pincode">Pincode:</label> <input class="mandatory" id="id_pincode" maxlength="6" name="pincode" placeholder="pincode" /></p>
 
 
 Can you choose the Nearest
@@ -33,23 +34,32 @@ Can you choose the Nearest
 Choose any one of them <br>
 
 <label for="id_nearest_college">Nearest college:</label> <input id="id_nearest_college" maxlength="200" name="nearest_college" type="text" /> OR <label for="id_nearest_town">Nearest town:</label> 
+
 <input id="id_nearest_town" maxlength="200" name="nearest_town" type="text" /></p>
 <div id="map_canvas" style="width:50%; height:30%">
 	</div>
-
+<!-- {{shopCreateForm.as_p}} -->
 <div id="details_tag">
     <p><label for="id_latitude">Latitude:</label> <input id="id_latitude" maxlength="14" name="latitude" type="text" /></p>
-<p><label for="id_longitude">Longitude:</label> <input class="mandatory" id="id_longitude" name="Longtitude" placeholder="Longitude" type="text" /></p>
-<p><label for="id_mobile">Mobile:</label> <input id="id_mobile" maxlength="14" name="mobile" type="text" /></p>
-<p><label for="id_username">Username:</label> <input class="mandatory" id="id_username" name="username" placeholder="User Name" type="text" /></p>
-<p><label for="id_password">Password:</label> <input class="mandatory" id="id_password" name="password" placeholder="Password Again" type="password" /></p>
-<p><label for="id_password1">Password Again:</label> <input class="mandatory" id="id_password1" name="password1" placeholder=" Password Again" type="password" /></p>
-<p><label for="id_services">Services:</label> <select multiple="multiple" id="id_services" name="services">
+  <p><label for="id_longitude">Longitude:</label> <input class="mandatory" id="id_longitude" name="longitude" placeholder="Longitude" type="text" /></p>
+  <p><label for="id_telephone">Mobile:</label> <input id="id_telephone" maxlength="14" name="telephone" type="text" required /></p>
+  <p><label for="id_username">Username:</label> <input class="mandatory" id="id_username" name="username" placeholder="User Name" type="text" /></p>
+  <p><label for="id_password">Password:</label> <input class="mandatory" id="id_password" name="password" placeholder="Password Again" type="password" /></p>
+  <p><label for="id_password1">Password Again:</label> <input class="mandatory" id="id_password1" name="password1" placeholder=" Password Again" type="password" /></p>
+
+  <p><label for="id_services_proxy">Services:</label> <input id="id_services_proxy" maxlength="200" type="text" /></p>
+
+
+ 
+<!-- <p><label for="id_services">Services:</label> <select multiple="multiple" id="id_services" name="services">
+</select></p> -->
+
 
 
 	    <input type="submit" value="Create" />
+  </div>  
 	</form>
-	</div>	
+	
 	
 	
 	
@@ -65,67 +75,125 @@ Choose any one of them <br>
   
   <script>
   $(function() {
+    
+
+    $.getJSON("/printo-app/get_services/", function (dictionary) {
+        var keys = [];
+
+        function extractLast( term ) {
+          return split( term ).pop();
+        }
+
+        function split( val ) {
+          return val.split( /,\s*/ );
+        }
+
+        for (var key in dictionary) {
+          if (dictionary.hasOwnProperty(key)) {
+            keys.push(key);
+          }
+        }
+
+        $( "#id_services_proxy" )
+        .bind( "keydown", function( event ) {
+          if ( event.keyCode === $.ui.keyCode.TAB &&
+              $( this ).autocomplete( "instance" ).menu.active ) {
+            event.preventDefault();
+          }
+        })
+        .autocomplete({
+           source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            keys, extractLast( request.term ) ) );
+          },
+          focus: function() {
+            // prevent value inserted on focus
+            return false;
+          },
+          select: function( event, ui ) {
+              var terms = split( this.value );
+
+              // // remove the current input
+              terms.pop();
+              // // add the selected item
+              terms.push( ui.item.value );
+              // alert(terms)
+              // // add placeholder to get the comma-and-space at the end
+              terms.push( "" );
+              this.value = terms.join( ", " );
+              // alert(ui.item.id)
+
+              $("#details_tag").append('<input id="'+ ui.item.value +'" type="text" name="services" value="20"  hidden/>')
+
+              $('#'+ui.item.value).attr('value', dictionary[ui.item.value][1])
+              // .val('2 2');
+              return false;
+          }
+        }); 
+    });
+
     $.getJSON("/printo-app/get_colleges/", function (dictionary) {
-  var keys = [];
-for (var key in dictionary) {
-  if (dictionary.hasOwnProperty(key)) {
-    keys.push(key);
-  }
-}
+        var keys = [];
+        for (var key in dictionary) {
+            if (dictionary.hasOwnProperty(key)) {
+              keys.push(key);
+            }
+        }
 
-    $( "#id_nearest_college" ).autocomplete({
-	source: keys,
-	 select: function( event, ui ) {
-	    initialize(dictionary[ui.item.value]);
-	    $('#details_tag').toggle();
-	}
-    }); }
-  ); 
+        $( "#id_nearest_college" ).autocomplete({
+            source: keys,
+            select: function( event, ui ) {
+          	    initialize(dictionary[ui.item.value]);
+          	    $('#details_tag').toggle();
+          	}
+        }); 
+    }); 
   
-      $.getJSON("/printo-app/get_cities/", function (dictionary) {
-  var keys = [];
-for (var key in dictionary) {
-  if (dictionary.hasOwnProperty(key)) {
-    keys.push(key);
-  }
-}
+    $.getJSON("/printo-app/get_cities/", function (dictionary) {
+      var keys = [];
+      for (var key in dictionary) {
+        if (dictionary.hasOwnProperty(key)) {
+          keys.push(key);
+        }
+      }
 
-    $( "#id_nearest_town" ).autocomplete({
-	source: keys,
-	 select: function( event, ui ) {
-	    initialize(dictionary[ui.item.value]);
-	    $('#details_tag').toggle();
-	}
-    }); }
-  );
+      $( "#id_nearest_town" ).autocomplete({
+        source: keys,
+        select: function( event, ui ) {
+          initialize(dictionary[ui.item.value]);
+          $('#details_tag').toggle();
+        }
+      }); 
+    });
   
   
   
   });
   
-   function initialize(cords) {
+  function initialize(cords) {
      
-         var lat = cords[0];
-         var lng = cords[1];
+      var lat = cords[0];
+      var lng = cords[1];
       var myOptions = {
          center: new google.maps.LatLng(lat, lng),
          zoom: 8,
          mapTypeId: google.maps.MapTypeId.ROADMAP
        };
-       var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
-       var myMarkerLatlng = new google.maps.LatLng(lat,lng);
-       var marker = new google.maps.Marker({
-           position: myMarkerLatlng,
-	     draggable: true,
-           map: map,
-           title: 'Hello World!'
-       });
+      var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
+      var myMarkerLatlng = new google.maps.LatLng(lat,lng);
+      var marker = new google.maps.Marker({
+        position: myMarkerLatlng,
+        draggable: true,
+        map: map,
+        title: 'Click to position!'
+      });
        
-       google.maps.event.addListener(marker, 'click', function (event) {
-    document.getElementById("id_latitude").value = event.latLng.lat();
-    document.getElementById("id_longitude").value = event.latLng.lng();
-});
-    }
+      google.maps.event.addListener(marker, 'click', function (event) {
+      document.getElementById("id_latitude").value = event.latLng.lat();
+      document.getElementById("id_longitude").value = event.latLng.lng();
+      })  ;
+  }
   
   </script>
 {% endblock %}

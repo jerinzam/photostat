@@ -75,7 +75,7 @@ class City(models.Model):
     latitude =models.DecimalField(max_digits=11, decimal_places=7, null=True)
    
     def __str__(self):
-	return self.name
+        return self.name
 	
 
 class Author(models.Model):
@@ -197,7 +197,7 @@ class Document(models.Model):
     university = models.ManyToManyField(University, blank =True)
 
     def __str__(self):
-	return self.name
+	    return self.name
 
 
 	
