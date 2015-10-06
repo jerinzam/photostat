@@ -8,6 +8,7 @@ class DocumentAdmin(admin.ModelAdmin):
 	
 class ServiceAdmin(admin.ModelAdmin):
 	prepopulated_fields = {"slug": ("name",)}
+	list_display = ('name','slug','id')
 class PublisherAdmin(admin.ModelAdmin):
 	prepopulated_fields = {"slug": ("name",)}
 class TagAdmin(admin.ModelAdmin):

@@ -14,98 +14,13 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 from .models import *
 
-class DocUploadForm(ModelForm):
+class DocUploadForm(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all())
     class Meta:
-	    model = Document
-	    fields =("name","doc_type","pageNoRange",)
-
-@login_required
-def indexEmp(request):
-    context = {'shop':shopid}
-    return render(request,'index.html',context)
-@login_required
-def docUpload(request):
-    if(request.method=='POST'):
-	    user = UserProfile.objects.get(user=request.user)
-	    if(user.userType == 1 ):
-	        org = Organization.objects.get(owner = request.user)
-	    elif(user.userType == 2):
-	        org = Organization.objects.get(employee = request.user)
-	    
-	        data = DocUploadForm(request.POST,request.FILES)
-
-	        new_doc = data.save(commit=False)
-	        new_doc.organization = org
-	        new_doc.is_public = True
-	        new_doc.save()
-	        data.save_m2m() 
-	    return HttpResponseRedirect(reverse('documentList'))
-    else:
-	    form = DocUploadForm()
-	    context = { "docUploadForm" : form }
-	    return render(request,'printo_app/docUpload.html',context)
-@login_required
-def docList(request):
-    user = UserProfile.objects.get(user=request.user)
-    if(user.userType == 1  ):
-	    org = Organization.objects.get(owner = request.user)
-    elif(user.userType == 2):
-	    org = Organization.objects.get(employee = request.user)
-    docList = Document.objects.filter(is_public=True).filter(organization=org)
-    context = {"docs":docList}
-    return render(request,'printo_app/docList.html',context)
-@login_required
-def docDetail(request,docid):
-    docDetail = Document.objects.get(id=docid)
-    form = DocUploadForm(instance = docDetail)
-    context = {"docEditForm":form,"doc":docDetail}
-    return render(request,'printo_app/docDetail.html',context)
-@login_required
-def docEditSave(request,docid):
-    currentDoc = Document.objects.get(id=docid)
-    docDetail = DocUploadForm(request.POST,request.FILES,instance=currentDoc)
-    docDetail.save()	
-    context = { "msg":docDetail }
-    return HttpResponseRedirect(reverse('documentList'))
-@login_required
-def shopProfile(request,shopid=None):
-    context = {}
-    user = UserProfile.objects.get(user=request.user)
-    if(user.userType == 1):
-	    pass
-    elif(user.userType == 2):
-	    shop = Shop.objects.get(employee=request.user)
-	    shopForm = ShopEditForm(instance=shop)
-	    context = {'shopForm':shopForm}
-	    return render(request,'printo_app/shopProfile.html',context)
-@login_required
-def shopEditSave(request):
-    shop = Shop.objects.get(employee=request.user)
-    shopForm = ShopEditForm(request.POST,instance=shop)
-    shopForm.save()
-    return HttpResponseRedirect(reverse('shopProfile'))
-
-@login_required
-def indexEmp(request,shopid=None):
-    user = UserProfile.objects.get(user=request.user)
-    is_owner = False
-    if(user.userType == 1):
-	    is_owner = True
-    elif(user.userType == 2):
-	    is_owner = False
-	    context = {'is_owner':is_owner}
-    return HttpResponseRedirect(reverse('ordersList'))
-@login_required
-def ordersList(request,shopid=None):
-    context = {}
-    return render(request,'printo_app/ordersList.html',context)
-@login_required
-def shopList(request):
-    org = Organization.objects.get(owner = request.user)
-    shops = Shop.objects.filter(owner = org )
-    context={'shops' : shops}
-    return render(request,'printo_app/shopList.html',context)
-
+        model = Document
+        # widgets = {'tags' : autocomplete_light.MultipleChoiceWidget('TagAutocomplete')}
+        # autocomplete_fields = ('tags','topic','university',)
+        exclude = ['organization','private_user','is_public','is_user_private','display']
 
 class ShopForm(forms.Form):
     shopName = forms.CharField(max_length=100)
@@ -119,7 +34,7 @@ class ShopForm(forms.Form):
     nearest_college = forms.CharField(max_length=200, required=False)
     
     nearest_town = forms.CharField(max_length=200, required=False)
-		       
+               
     telephone = forms.CharField(max_length=14)
     
     longitude = forms.DecimalField(max_digits=11, decimal_places=7)
@@ -128,10 +43,10 @@ class ShopForm(forms.Form):
                                 label=_(u'Username'))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'mandatory', 'placeholder': 'Password'}, render_value=False),
                                 label=_(u'Password'))
- 			
+            
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'mandatory', 'placeholder': ' Password Again'}, render_value=False),
                                 label=_(u'Password Again'))
-    services = forms.ModelMultipleChoiceField(queryset=Service.objects.all(),widget=forms.CheckboxSelectMultiple())
+    services = forms.ModelMultipleChoiceField(queryset=Service.objects.all())
     
     def clean(self):
         """
@@ -148,76 +63,169 @@ class ShopForm(forms.Form):
 
 
     # def clean_email(self):
-	   #  if 'email' in self.cleaned_data:
+       #  if 'email' in self.cleaned_data:
 
-	   #      try:
-		  #       user = User.objects.get(username= self.cleaned_data["username"])
-		  #       raise forms.ValidationError(_(u'Already this Username is Registered'))
-	
-	   #      except User.DoesNotExist:
-		
-		  #       pass
-	   #  return self.cleaned_data["email"]
+       #      try:
+          #       user = User.objects.get(username= self.cleaned_data["username"])
+          #       raise forms.ValidationError(_(u'Already this Username is Registered'))
+    
+       #      except User.DoesNotExist:
+        
+          #       pass
+       #  return self.cleaned_data["email"]
+
+@login_required
+def indexEmp(request):
+    context = {'shop':shopid}
+    return render(request,'index.html',context)
+
+@login_required
+def docUpload(request):
+    if(request.method=='POST'):
+        # import ipdb; ipdb.set_trace();
+        user = UserProfile.objects.get(user=request.user)
+        if(user.userType == 1 ):
+            org = Organization.objects.get(owner = request.user)
+        elif(user.userType == 2):
+            org = Organization.objects.get(employee = request.user)
+
+        data = DocUploadForm(request.POST,request.FILES)
+        new_doc = data.save(commit=False)
+        new_doc.organization = org
+        new_doc.is_public = True
+        new_doc.save()
+        data.save_m2m() 
+        return HttpResponseRedirect(reverse('documentList'))
+    else:
+        form = DocUploadForm()
+        context = { "docUploadForm" : form }
+        return render(request,'printo_app/docUpload.html',context)
+
+@login_required
+def docList(request):
+    user = UserProfile.objects.get(user=request.user)
+    if(user.userType == 1  ):
+        org = Organization.objects.get(owner = request.user)
+    elif(user.userType == 2):
+        org = Organization.objects.get(employee = request.user)
+    docList = Document.objects.filter(is_public=True).filter(organization=org)
+    context = {"docs":docList}
+    return render(request,'printo_app/docList.html',context)
+
+@login_required
+def docDetail(request,docid):
+    docDetail = Document.objects.get(id=docid)
+    form = DocUploadForm(instance = docDetail)
+    context = {"docEditForm":form,"doc":docDetail}
+    return render(request,'printo_app/docDetail.html',context)
+
+@login_required
+def docEditSave(request,docid):
+    currentDoc = Document.objects.get(id=docid)
+    docDetail = DocUploadForm(request.POST,request.FILES,instance=currentDoc)
+    docDetail.save()    
+    context = { "msg":docDetail }
+    return HttpResponseRedirect(reverse('documentList'))
+
+@login_required
+def shopProfile(request,shopid=None):
+    context = {}
+    user = UserProfile.objects.get(user=request.user)
+    if(user.userType == 1):
+        pass
+    elif(user.userType == 2):
+        shop = Shop.objects.get(employee=request.user)
+        shopForm = ShopEditForm(instance=shop)
+        context = {'shopForm':shopForm}
+        return render(request,'printo_app/shopProfile.html',context)
+
+@login_required
+def shopEditSave(request):
+    shop = Shop.objects.get(employee=request.user)
+    shopForm = ShopEditForm(request.POST,instance=shop)
+    shopForm.save()
+    return HttpResponseRedirect(reverse('shopProfile'))
+
+@login_required
+def indexEmp(request,shopid=None):
+    user = UserProfile.objects.get(user=request.user)
+    is_owner = False
+    if(user.userType == 1):
+        is_owner = True
+    elif(user.userType == 2):
+        is_owner = False
+        context = {'is_owner':is_owner}
+    return HttpResponseRedirect(reverse('ordersList'))
+
+@login_required
+def ordersList(request,shopid=None):
+    context = {}
+    return render(request,'printo_app/ordersList.html',context)
+
+@login_required
+def shopList(request):
+    org = Organization.objects.get(owner = request.user)
+    shops = Shop.objects.filter(owner = org )
+    context={'shops' : shops}
+    return render(request,'printo_app/shopList.html',context)
 
 @login_required
 def shopCreate(request):
     uprofile =get_object_or_404(UserProfile, user=request.user)
     if uprofile.userType==1:
-	    pass
+        pass
     else:
-	    return HttpResponse("You don't have permission")
-	
+        return HttpResponse("You don't have permission")
+    
     if(request.method=='POST'):
-	    form = ShopForm(request.POST)
-	    import ipdb; ipdb.set_trace()
-	    if(form.is_valid()):
-	        username = form.cleaned_data.get("username", None)
-	        password = form.cleaned_data.get("password", None)
-	        telephone = form.cleaned_data.get("telephone", None)
-	        email = form.cleaned_data.get("email", None)
-	        if email == None:
-		        email = request.user.email
-	        if username != None:
-		        user = User.objects.create_user(username=username,email=email, password=password)
-		
-		        userprofile = UserProfile()
-		        userprofile.user = user
-		        userprofile.userType = 2
-		        if telephone !=None:
-		            userprofile.telephone = telephone 
-		        userprofile.save()
-		        
-	        # shop = Shop()
-	        shopprofile = Shop()
-	        shopprofile.employee = user
-	        shopprofile.owner = Organization.objects.get(owner = request.user)
-	        shopprofile.shopName = form.cleaned_data.get("shopName", None)
-	        shopprofile.latitude = form.cleaned_data.get("latitude",None)
-	        shopprofile.longitude = form.cleaned_data.get("longitude",None)
-	        shopprofile.telephone = form.cleaned_data.get("telephone",None)
-	        
-	        shopprofile.save()
-	        shopprofile.services = form.cleaned_data.get("services",None)
-	        # shop.save_m2m()
+        form = ShopForm(request.POST)
+        # import ipdb; ipdb.set_trace()
+        if(form.is_valid()):
+            username = form.cleaned_data.get("username", None)
+            password = form.cleaned_data.get("password", None)
+            telephone = form.cleaned_data.get("telephone", None)
+            email = form.cleaned_data.get("email", None)
+            if email == None:
+                email = request.user.email
+            if username != None:
+                user = User.objects.create_user(username=username,email=email, password=password)
+        
+                userprofile = UserProfile()
+                userprofile.user = user
+                userprofile.userType = 2
+                if telephone !=None:
+                    userprofile.telephone = telephone 
+                userprofile.save()
+                
+            # shop = Shop()
+            shopprofile = Shop()
+            shopprofile.employee = user
+            shopprofile.owner = Organization.objects.get(owner = request.user)
+            shopprofile.shopName = form.cleaned_data.get("shopName", None)
+            shopprofile.latitude = form.cleaned_data.get("latitude",None)
+            shopprofile.longitude = form.cleaned_data.get("longitude",None)
+            shopprofile.telephone = form.cleaned_data.get("telephone",None)
+            
+            shopprofile.save()
+            shopprofile.services = form.cleaned_data.get("services",None)
+            # shop.save_m2m()
 
-	        return HttpResponseRedirect(reverse('shopList'))
+            return HttpResponseRedirect(reverse('shopList'))
     else:
-	    userform = 'this form is to be deleted'
+        userform = 'this form is to be deleted'
 
-	    shopform = ShopForm()
-	    context = { 'shopCreateForm' : shopform, 'userForm' : userform }
+        shopform = ShopForm()
+        context = { 'shopCreateForm' : shopform, 'userForm' : userform }
     return render(request,'printo_app/shopCreate.html',context)
 
 @login_required
 def index(request):
     user = UserProfile.objects.get(user=request.user)
     if(user.userType == 1):
-	    return HttpResponseRedirect(reverse('OwnerMain'))
+        return HttpResponseRedirect(reverse('OwnerMain'))
     elif(user.userType == 2):
-	    return HttpResponseRedirect(reverse('EmployeeMain'))
+        return HttpResponseRedirect(reverse('EmployeeMain'))
     return None
-
-
 
 class RegistrationForm(forms.Form):
     
@@ -228,10 +236,10 @@ class RegistrationForm(forms.Form):
     
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'mandatory', 'placeholder': 'Password'}, render_value=False),
                                 label=_(u'Password'))
-				
+                
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'mandatory', 'placeholder': ' Password Again'}, render_value=False),
                                 label=_(u'Password Again'))
-		       
+               
     mobile = forms.CharField(max_length=14)
     
     def clean(self):
@@ -249,70 +257,105 @@ class RegistrationForm(forms.Form):
 
 
     def clean_email(self):
-	    if 'email' in self.cleaned_data:
-	    
-	        try:
-		        user = User.objects.get(username= self.cleaned_data["email"])
-		        raise forms.ValidationError(_(u'Already Email Address is registered'))
-	
-	        except User.DoesNotExist:
-	        	pass
-	        	return self.cleaned_data["email"]
+        if 'email' in self.cleaned_data:
+        
+            try:
+                user = User.objects.get(username= self.cleaned_data["email"])
+                raise forms.ValidationError(_(u'Already Email Address is registered'))
+    
+            except User.DoesNotExist:
+                pass
+                return self.cleaned_data["email"]
 
 def index_main(request):
     if request.user.is_authenticated()==True:
-	    return HttpResponseRedirect(reverse("main"))
+        return HttpResponseRedirect(reverse("main"))
     else:
-	    if request.method=="POST":
-	        form= RegistrationForm(request.POST)
-	        if form.is_valid():
-		        u = User.objects.create_user(form.cleaned_data["email"],  form.cleaned_data["email"], form.cleaned_data["password"],)
-		# Send a mail with verification code
-		        profile = UserProfile()
-		        profile.user =u
-		        profile.userType =1
-		        profile.mobile = form.cleaned_data["mobile"]
-		        profile.save()
-		
-		        org= Organization()
-		        org.owner = u
-		        org.save()
-		        return HttpResponse("Thanks") 
-	    else:
-	        form =RegistrationForm()
-	    return render( request,  'index_main.html', context={"form":form},)
+        if request.method=="POST":
+            form= RegistrationForm(request.POST)
+            if form.is_valid():
+                u = User.objects.create_user(form.cleaned_data["email"],  form.cleaned_data["email"], form.cleaned_data["password"],)
+        # Send a mail with verification code
+                profile = UserProfile()
+                profile.user =u
+                profile.userType =1
+                profile.mobile = form.cleaned_data["mobile"]
+                profile.save()
+        
+                org= Organization()
+                org.owner = u
+                org.save()
+                return HttpResponse("Thanks") 
+        else:
+            form =RegistrationForm()
+        return render( request,  'index_main.html', context={"form":form},)
 
     
 def docListOwner(request):
     pass
 def docUploadOwner(request):
     pass
+
 @login_required
 def indexOwner(request):
     context = {}
     return render(request,'ownerMain.html',context)
 
-
-
-
 import json
 from django.core import serializers
 
+
+
+def get_universitys(request):
+    p={}
+    # import ipdb; ipdb.set_tra ce()
+    for c in University.objects.all():
+        p[c.name] = (c.name,c.pk)
+    return HttpResponse(json.dumps(p), content_type="application/json")
+
+def get_publishers(request):
+    p={}
+    # import ipdb; ipdb.set_tra ce()
+    for c in Publisher.objects.all():
+        p[c.name] = (c.name,c.pk)
+    return HttpResponse(json.dumps(p), content_type="application/json")
+
+def get_courses(request):
+    p={}
+    # import ipdb; ipdb.set_tra ce()
+    for c in Course.objects.all():
+        p[c.name] = (c.name,c.pk)
+    return HttpResponse(json.dumps(p), content_type="application/json")
+
+def get_topics(request):
+    p={}
+    # import ipdb; ipdb.set_tra ce()
+    for c in Topic.objects.all():
+        p[c.name] = (c.name,c.pk)
+    return HttpResponse(json.dumps(p), content_type="application/json")
+
+def get_tags(request):
+    p={}
+    # import ipdb; ipdb.set_tra ce()
+    for c in Tag.objects.all():
+        p[c.name] = (c.name,c.id)
+    return HttpResponse(json.dumps(p), content_type="application/json")
+
 def get_services(request):
     p={}
-    # import ipdb; ipdb.set_tra	ce()
+    # import ipdb; ipdb.set_trace()
     for c in Service.objects.all():
-	    p[c.name] = (c.name,c.id)
+        p[c.name] = (c.name,c.id)
     return HttpResponse(json.dumps(p), content_type="application/json")
 
 def get_colleges(request):
     p={}
     for c in College.objects.all():
-	    p[c.name] =(str(c.latitude), str(c.longitude))
+        p[c.name] =(str(c.latitude), str(c.longitude))
     return HttpResponse(json.dumps(p), content_type="application/json")
 
 def get_cities(request):
     p={}
     for c in City.objects.all():
-	    p[c.name] =(str(c.latitude), str(c.longitude))
+        p[c.name] =(str(c.latitude), str(c.longitude))
     return HttpResponse(json.dumps(p), content_type="application/json")

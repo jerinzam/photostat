@@ -1,19 +1,13 @@
-<<<<<<< HEAD
-{% extends "empMain.html" %}
 
-{% block content %}
+{% extends "ownerMain.html" %}
 
-<h3>My Documents </h3>
+{% block owner-content %}
 
-=======
-{% extends "index.html" %}
-
-{% block content %}
-
->>>>>>> origin/master
+	<h1 class="page-header">My Documents</h1>
 	{% for doc in docs %}
 	
 		<li><a href='{% url "documentDetail" doc.id %}'>{{ doc.name }} {{ doc.id }}</a></li>
 		
 	{% endfor %}
+	
 {% endblock %}

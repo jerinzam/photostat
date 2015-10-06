@@ -1,199 +1,303 @@
-{% extends "base.html" %}
+{% extends "ownerMain.html" %}
 
 {% block css %}
 
 		<style>
 		#details_tag{ display: none };
-		
-		#map_canvas { height:300px; width:500px;};
+
+		#map_canvas { width:100%;};
 		</style> 
+
 {% endblock %}
 
-{% block content %}
+{% block owner-content %}
 
-	
-	
-	<h3> Create a Shop </h3>
-	
-	<form id="form" action="{% url 'shopCreate' %}" enctype="multipart/form-data" method="post">
-	    {% csrf_token %}
+	<h1 class="page-header">Create a Shop</h1>
 
-	    <p><label for="id_shopName">Shopname:</label> <input id="id_shopName" maxlength="100" name="shopName" type="text" placeholder="shop name"/></p>
+	<form  id="form" action="{% url 'shopCreate' %}" enctype="multipart/form-data" method="post">
+        <div class='row '>
 
-<p><label for="id_address">Address:</label> <textarea cols="40" id="id_address" name="address" rows="10">
-</textarea></p>
+            <div class="container col-md-4 col-md-offset-1">
+          	    {% csrf_token %}
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="id_shopName">Shopname:</label> 
+                    <input class="form-control" id="id_shopName" maxlength="100" name="shopName" type="text" placeholder="shop name"/>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="id_telephone">Shop Contact No:</label> 
+                    <input class="form-control"  id="id_telephone" maxlength="14" name="telephone" type="text" placeholder="phone no" required />
+                  </div>
+
+                </div>
+                <br>
+                <div>
+                  <label for="id_address">Address:</label> 
+                  <textarea class="form-control" cols="40" id="id_address" name="address" rows="3">
+                  </textarea>
+                </div>
+                <br>
+                <div>
+                  <label for="id_pincode">Pincode:</label> 
+                  <input class="mandatory form-control" id="id_pincode" maxlength="6" name="pincode" placeholder="pincode" />
+                </div>
+                <br>
+
+                Choose the nearest :
+                <div  class="btn-group" data-toggle="buttons">
+                    
+                      <label class="btn btn-primary collegebtn">
+                        <input  type="radio" name="collegechoose"  autocomplete="off" > College
+                      </label>
+                    
+                    <label class="btn btn-primary townbtn">
+                      <input type="radio" name="townchoose"  autocomplete="off"> City
+                    </label>
+
+                </div>
+                
+                <div id="college_input" style="display: none;">
+                  <label for="id_nearest_college">Nearest college:</label> 
+                  <input id="id_nearest_college" class="form-control" maxlength="200" name="nearest_college" type="text" />
+                </div>
+                <div id="town_input" style="display: none;">
+                  <label for="id_nearest_town">Nearest town:</label> 
+                  <input id="id_nearest_town" class="form-control" maxlength="200" name="nearest_town" type="text" /></p>
+                </div>
+            </div>
+            <div class="container col-md-4 col-md-offset-1">
+                <div id="details_tag">
+
+                          <input class="manadatory"  id="id_latitude" maxlength="11" name="latitude" type="text" hidden/>
+
+                           <input class="mandatory" id="id_longitude" maxlength="11" name="longitude" placeholder="Longitude" type="text" hidden/>
+                       
+                       
+                        <div>
+                          <label for="id_username">Username:</label> 
+                          <input class="mandatory form-control" id="id_username" name="username" placeholder="User Name" type="text" />
+                        </div>
+                        <br>
+                        <div>
+                          <label for="id_password">Password:</label> 
+                          <input class="mandatory form-control" id="id_password" name="password" placeholder="Password Again" type="password" />
+                        </div>
+                        <br>
+                        <div>
+                          <label for="id_password1">Password Again:</label> 
+                          <input class="mandatory form-control" id="id_password1" name="password1" placeholder=" Password Again" type="password" />
+                        </div>
+                        <br>
+                        <div>
+                          <label for="id_services_proxy">Services:</label> 
+                          <input class="form-control" id="id_services_proxy" maxlength="200" type="text" />
+                        </div>
+                        <br>
+                        <input class="btn btn-success btn-md pull-right" type="submit" value="Create" />
+                  </div>
+            </div>
+
+        </div>
+  </form>
 
 
-<p><label for="id_pincode">Pincode:</label> <input class="mandatory" id="id_pincode" maxlength="6" name="pincode" placeholder="pincode" /></p>
 
 
-Can you choose the Nearest
-
-<br> Town or Engineering College<br>
-
-Choose any one of them <br>
-
-<label for="id_nearest_college">Nearest college:</label> <input id="id_nearest_college" maxlength="200" name="nearest_college" type="text" /> OR <label for="id_nearest_town">Nearest town:</label> 
-
-<input id="id_nearest_town" maxlength="200" name="nearest_town" type="text" /></p>
-<div id="map_canvas" style="width:50%; height:30%">
-	</div>
-<!-- {{shopCreateForm.as_p}} -->
-<div id="details_tag">
-    <p><label for="id_latitude">Latitude:</label> <input id="id_latitude" maxlength="14" name="latitude" type="text" /></p>
-  <p><label for="id_longitude">Longitude:</label> <input class="mandatory" id="id_longitude" name="longitude" placeholder="Longitude" type="text" /></p>
-  <p><label for="id_telephone">Mobile:</label> <input id="id_telephone" maxlength="14" name="telephone" type="text" required /></p>
-  <p><label for="id_username">Username:</label> <input class="mandatory" id="id_username" name="username" placeholder="User Name" type="text" /></p>
-  <p><label for="id_password">Password:</label> <input class="mandatory" id="id_password" name="password" placeholder="Password Again" type="password" /></p>
-  <p><label for="id_password1">Password Again:</label> <input class="mandatory" id="id_password1" name="password1" placeholder=" Password Again" type="password" /></p>
-
-  <p><label for="id_services_proxy">Services:</label> <input id="id_services_proxy" maxlength="200" type="text" /></p>
+<!-- MAP MODAL -->
 
 
- 
-<!-- <p><label for="id_services">Services:</label> <select multiple="multiple" id="id_services" name="services">
-</select></p> -->
+<div class="modal fade map-modal" tabindex="-1" role="dialog"  aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-md" id="mine">
+    <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Modal title</h4>
+          </div>
+          <div class="modal-body">
+              <p>One fine body&hellip;</p>
+               <div id="map_canvas" style="width:100%; height:30%">
+              </div>
 
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-
-	    <input type="submit" value="Create" />
-  </div>  
-	</form>
-	
-	
-	
-	
 {% endblock %}
 
 
 {% block javascript %}
-<script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?AIzaSyBCSR9MrS1OxOiLSezXTOFKtkpDZAzGruE&sensor=true"></script>
+  <script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?AIzaSyBCSR9MrS1OxOiLSezXTOFKtkpDZAzGruE&sensor=true"></script>
 
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
   <script>
-  $(function() {
-    
+      $(function() {
 
-    $.getJSON("/printo-app/get_services/", function (dictionary) {
-        var keys = [];
+        $('.map-modal').on('hidden.bs.modal', function () {
+          if($('#id_latitude').val()==''){
+            $('#college_input > input').val('')
+            ('#town_input > input').val('')
+          }        
+          else{
+            
+            $('#details_tag').show();
 
-        function extractLast( term ) {
-          return split( term ).pop();
-        }
-
-        function split( val ) {
-          return val.split( /,\s*/ );
-        }
-
-        for (var key in dictionary) {
-          if (dictionary.hasOwnProperty(key)) {
-            keys.push(key);
           }
-        }
+          });
 
-        $( "#id_services_proxy" )
-        .bind( "keydown", function( event ) {
-          if ( event.keyCode === $.ui.keyCode.TAB &&
-              $( this ).autocomplete( "instance" ).menu.active ) {
-            event.preventDefault();
-          }
+        $('.collegebtn').on('click',function(){
+          $('#college_input').show()
+          $('#town_input').hide()
+          $('#college_input > input').val('')
+          $('#town_input > input').val('')
+          $('#details_tag').hide()
+
         })
-        .autocomplete({
-           source: function( request, response ) {
-          // delegate back to autocomplete, but extract the last term
-          response( $.ui.autocomplete.filter(
-            keys, extractLast( request.term ) ) );
-          },
-          focus: function() {
-            // prevent value inserted on focus
-            return false;
-          },
-          select: function( event, ui ) {
-              var terms = split( this.value );
 
-              // // remove the current input
-              terms.pop();
-              // // add the selected item
-              terms.push( ui.item.value );
-              // alert(terms)
-              // // add placeholder to get the comma-and-space at the end
-              terms.push( "" );
-              this.value = terms.join( ", " );
-              // alert(ui.item.id)
+        $('.townbtn').on('click',function(){
+          $('#college_input').hide()
+          $('#town_input').show()
+          $('#college_input > input').val('')
+          $('#town_input > input').val('')
+          $('#details_tag').hide()
 
-              $("#details_tag").append('<input id="'+ ui.item.value +'" type="text" name="services" value="20"  hidden/>')
+        })
+       
+        $.getJSON("/printo-app/get_services/", function (dictionary) {
+            var keys = [];
 
-              $('#'+ui.item.value).attr('value', dictionary[ui.item.value][1])
-              // .val('2 2');
-              return false;
-          }
+            function extractLast( term ) {
+              return split( term ).pop();
+            }
+
+            function split( val ) {
+              return val.split( /,\s*/ );
+            }
+
+            for (var key in dictionary) {
+              if (dictionary.hasOwnProperty(key)) {
+                keys.push(key);
+              }
+            }
+
+            $( "#id_services_proxy" )
+            .bind( "keydown", function( event ) {
+              if ( event.keyCode === $.ui.keyCode.TAB &&
+                  $( this ).autocomplete( "instance" ).menu.active ) {
+                event.preventDefault();
+              }
+            })
+            .autocomplete({
+               source: function( request, response ) {
+              // delegate back to autocomplete, but extract the last term
+              response( $.ui.autocomplete.filter(
+                keys, extractLast( request.term ) ) );
+              },
+              focus: function() {
+                // prevent value inserted on focus
+                return false;
+              },
+              select: function( event, ui ) {
+                  var terms = split( this.value );
+
+                  // // remove the current input
+                  terms.pop();
+                  // // add the selected item
+                  terms.push( ui.item.value );
+                  // alert(terms)
+                  // // add placeholder to get the comma-and-space at the end
+                  terms.push( "" );
+                  this.value = terms.join( ", " );
+                  // alert(ui.item.id)
+
+                  $("#details_tag").append('<input id="'+ ui.item.value +'" type="text" name="services"  value="'+ dictionary[ui.item.value][1] +'"  hidden/>')
+
+                  // $('#'+ui.item.value).attr('value', )
+                  // .val('2 2');
+                  return false;
+              }
+            }); 
+        });
+
+        $.getJSON("/printo-app/get_colleges/", function (dictionary) {
+            var keys = [];
+            for (var key in dictionary) {
+                if (dictionary.hasOwnProperty(key)) {
+                  keys.push(key);
+                }
+            }
+
+            $( "#id_nearest_college" ).autocomplete({
+                source: keys,
+                select: function( event, ui ) {
+              	  
+                    $('.map-modal').modal('show');
+                    $('.map-modal').on('shown.bs.modal', function () {
+                       initialize(dictionary[ui.item.value]);
+                  });
+
+              	    
+
+              	}
+            }); 
         }); 
-    });
-
-    $.getJSON("/printo-app/get_colleges/", function (dictionary) {
-        var keys = [];
-        for (var key in dictionary) {
+      
+        $.getJSON("/printo-app/get_cities/", function (dictionary) {
+          var keys = [];
+          for (var key in dictionary) {
             if (dictionary.hasOwnProperty(key)) {
               keys.push(key);
             }
-        }
+          }
 
-        $( "#id_nearest_college" ).autocomplete({
+          $( "#id_nearest_town" ).autocomplete({
             source: keys,
             select: function( event, ui ) {
-          	    initialize(dictionary[ui.item.value]);
-          	    $('#details_tag').toggle();
-          	}
-        }); 
-    }); 
-  
-    $.getJSON("/printo-app/get_cities/", function (dictionary) {
-      var keys = [];
-      for (var key in dictionary) {
-        if (dictionary.hasOwnProperty(key)) {
-          keys.push(key);
-        }
-      }
+              initialize(dictionary[ui.item.value]);
 
-      $( "#id_nearest_town" ).autocomplete({
-        source: keys,
-        select: function( event, ui ) {
-          initialize(dictionary[ui.item.value]);
-          $('#details_tag').toggle();
-        }
-      }); 
-    });
-  
-  
-  
-  });
-  
-  function initialize(cords) {
-     
-      var lat = cords[0];
-      var lng = cords[1];
-      var myOptions = {
-         center: new google.maps.LatLng(lat, lng),
-         zoom: 8,
-         mapTypeId: google.maps.MapTypeId.ROADMAP
-       };
-      var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
-      var myMarkerLatlng = new google.maps.LatLng(lat,lng);
-      var marker = new google.maps.Marker({
-        position: myMarkerLatlng,
-        draggable: true,
-        map: map,
-        title: 'Click to position!'
-      });
-       
-      google.maps.event.addListener(marker, 'click', function (event) {
-      document.getElementById("id_latitude").value = event.latLng.lat();
-      document.getElementById("id_longitude").value = event.latLng.lng();
-      })  ;
-  }
-  
+              $('#details_tag').show();
+            }
+          }); 
+        });
+      
+      }); // $(function)ends
+
+      
+      function initialize(cords) {
+         
+          var lat = cords[0];
+          var lng = cords[1];
+          var myOptions = {
+             center: new google.maps.LatLng(lat, lng),
+             zoom: 15,
+             mapTypeId: google.maps.MapTypeId.ROADMAP
+           };
+          var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
+          var myMarkerLatlng = new google.maps.LatLng(lat,lng);
+          var marker = new google.maps.Marker({
+            position: myMarkerLatlng,
+            draggable: true,
+            map: map,
+            title: 'Click to position!'
+          });
+           
+          google.maps.event.addListener(marker, 'click', function (event) {
+          document.getElementById("id_latitude").value = event.latLng.lat();
+          document.getElementById("id_longitude").value = event.latLng.lng();
+          document.getElementById("id_latitude").value = document.getElementById("id_latitude").value.substring(0,9
+            )
+          document.getElementById("id_longitude").value = document.getElementById("id_longitude").value.substring(0,9)
+            alert(document.getElementById("id_longitude").value )
+
+          })  ;
+      }
   </script>
 {% endblock %}
