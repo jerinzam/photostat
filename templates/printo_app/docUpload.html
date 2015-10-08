@@ -10,6 +10,7 @@
 	    {% csrf_token %}
 
     <div class="row">
+
       <div class="container col-md-4 col-md-offset-1">
         <p><label for="id_uuid">Uuid:</label> <input id="id_uuid" maxlength="60" name="uuid" type="text" /></p>
 
@@ -120,8 +121,6 @@
           </div>
           <div id="project_related" style="display: none;">
           </div>
-
-       
       </div>
 	    
     </div>
@@ -256,7 +255,6 @@ function split( val ) {
           }
         }); 
     });
- 
 
   	$.getJSON("/printo-app/get_courses/", function (dictionary) {
         var keys = [];
@@ -401,7 +399,7 @@ function split( val ) {
           }
         }); 
     }); 	
-  
+
   });
   
 

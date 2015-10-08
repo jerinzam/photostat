@@ -1,13 +1,553 @@
 
 {% extends "ownerMain.html" %}
 
+{% block css %}
+
+
+<style type="text/css">
+.filter{
+	padding: 1px !important;
+	width: 26.2% !important;
+	border:1px solid black;
+}
+
+.date_tabs li a{
+	/*color: red;*/
+	padding-left: 12px !important;
+	padding-right: 11.5px !important;
+}	
+
+#tags{
+ /* float:left;
+  border:1px solid #ccc;
+  padding:5px;
+  font-family:Arial;*/
+}
+#tags span.tag{
+  cursor:pointer;
+  display:block;
+  float:left;
+  color:#fff;
+  background:#689;
+  padding:5px;
+  padding-right:25px;
+  margin:4px;
+}
+#tags span.tag:hover{
+  opacity:0.7;
+}
+#tags span.tag:after{
+ position:absolute;
+ content:"x";
+ border:1px solid;
+ padding:0 4px;
+ margin:3px 0 10px 5px;
+ font-size:10px;
+}
+#tags input{
+  /*background:#eee;
+  border:0;*/
+  /*margin:4px;*/
+  /*padding:7px;*/
+  /*width:auto;*/
+}
+
+{% load staticfiles %}
+
+
+
+</style>
+{% endblock %}
+
 {% block owner-content %}
 
+
+
 	<h1 class="page-header">My Documents</h1>
-	{% for doc in docs %}
+
+		<div class="row">
+			<div class="col-md-8">
+				<div class="panel-group class_doc_list" id="accordion" role="tablist" aria-multiselectable="true">
+
+					<!-- {% for doc in docs %}
+					
+						<div class="panel panel-default">
+						    <div class="panel-heading" role="tab" id="heading{{ doc.id }}">
+						      		<h4 class="panel-title">
+								        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ doc.id }}" aria-expanded="false" aria-controls="collapse-{{ doc.id }}">
+								          {{ doc.name }} 
+								        </a>
+						      		</h4>
+						    </div>
+						    <div id="collapse-{{ doc.id }}" class="panel-collapse collapse " role="tabpanel" aria-labelledby="heading{{ doc.id }}">
+								      <div class="panel-body">
+								       
+								      </div>
+						    </div>
+					  	</div>
+					
+					{% endfor %} -->
+
+				</div>
+			</div>
+			<div class="col-md-4 filter">
+
+				<button class="btn btn-md pull-right">Show All</button><br>
+				Filter By: <br>
+				<div class="btn-group filter_choices" data-toggle="buttons">
+					  <label class="btn btn-primary  btn-sm namebtn ">
+					    <input type="radio" name="options" id="option1" autocomplete="off" checked> name
+					  </label>
+					  <label class="btn btn-primary btn-sm datebtn">
+					    <input type="radio" name="options" id="option2" autocomplete="off"> date
+					  </label>
+					  <label class="btn btn-primary btn-sm pricebtn">
+					    <input type="radio" name="options" id="option3" autocomplete="off"> price
+					  </label><label class="btn btn-primary btn-sm typebtn">
+					    <input type="radio" name="options" id="option3" autocomplete="off"> type
+					  </label>
+					  <label class="btn btn-primary btn-sm tagsbtn">
+					    <input type="radio" name="options" id="option3" autocomplete="off"> tags
+					  </label><label class="btn btn-primary btn-sm topicsbtn">
+					    <input type="radio" name="options" id="option3" autocomplete="off"> topic
+					  </label>
+				</div>
+				<br><br>
+				<div id="search_body" class="">
+
+					<div id="name_search" class="col-sm-12 " style="display: none;">
+
+						<label for="id_name_search">Search by File Name:</label> 
+                  		<input id="id_name_search" class="form-control" name="name_search" type="text" />
+                  		<br>
+					</div>
+					<div id="date_search" class="col-sm-12 " style="display: none;">
+
+						<label for="id_nearest_college">Search by Date:</label> 
+						<ul class="nav nav-tabs date_tabs">
+							  <li role="presentation" class="active"><a href="#on_date">on</a></li>
+							  <li role="presentation"><a href="#before_date">before</a></li>
+							  <li role="presentation"><a href="#after_date">after</a></li>
+							  <li role="presentation"><a href="#between_date">between</a></li>
+
+						</ul>
+						<div class="tab-content">
+						    <div role="tabpanel" class="tab-pane active" id="on_date">
+						    	<br>
+						    	<label for="id_on_date_search">File uploaded on:</label> 
+						    	<input id="id_on_date_search" class="form-control datepicker" name="on_input" type="text" />
+						    </div>
+						    <div role="tabpanel" class="tab-pane" id="before_date">
+						    	<br>
+						    	<label for="id_before_date_search">File uploaded before:</label> 
+						    	
+						    	<input id="id_before_date_search" name="before_input" type="text" class=" form-control datepicker"></p>
+						    </div>
+						    <div role="tabpanel" class="tab-pane" id="between_date">
+						    	<br>
+						    	<label for="id_between_date_search">File uploaded between:</label> 
+						    	<input id="id_start_between_date_search" class="form-control  datepicker" name="nearest_college" type="text" /><br>
+						    	and <br><br>
+						    	<input id="id_end_between_date_search" class="form-control  datepicker" name="nearest_college" type="text" />
+						    </div>
+						    <div role="tabpanel" class="tab-pane" id="after_date">
+						    	<br>
+						    	<label for="id_after_date_search">File uploaded after:</label> 
+						    	<input id="id_after_date_search" class="form-control datepicker" name="after_input" type="text" />
+						    </div>
+					  	</div>
+						
+						<br><br>
+                  		
+                  		<br>
+					</div> <!-- end date_search -->
+					<br>
+					<div id="price_search" class="col-sm-12 " style="display: none;">
+						<div class="row">
+							<div class="col-md-4">
+								<input class="form-control" id="id_price_min" value="" disabled/>
+							</div>
+							<div class="col-md-4 pull-right">
+								<input  class="form-control" id="id_price_max" value="" disabled/>
+							</div>
+						</div>
+						<br>
+						<div id="range"></div>
+						<br>
+						<br>
+						<br>
+					</div> <!-- end price_search -->
+					<div id="type_search" class="col-sm-12 " style="display: none;">
+							this is type
+					</div> <!-- end tags_search -->
+					<div id="tags_search" style="display: none;">
+							<div id="tags" class="col-sm-12 ">
+					        	<label for="id_tags_proxy">Tags:</label> 
+					        	<input  class="form-control" type="text" multiple="multiple" id="id_tags_proxy" />
+					        </div>
+					</div> <!-- end tags_search -->
+					<div id="topics_search" class="col-sm-12 " style="display: none;">
+							this is topics
+					</div> <!-- end tags_search -->
+				</div> <!-- end search_body -->
+			</div>
+		</div>
 	
-		<li><a href='{% url "documentDetail" doc.id %}'>{{ doc.name }} {{ doc.id }}</a></li>
+{% endblock %}
+
+{% block javascript %}
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+   <script src="{% static 'js/printo_app/nouislider.min.js' %}"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+
+
+	// 
+
+	var slider = document.getElementById('range');
+
+	noUiSlider.create(slider, {
+		start: [ 20, 80 ], // Handle start position
+		step:40, // Slider moves in increments of '10'
+		margin: 20, // Handles must be more than '20' apart
+		connect: true, // Display a colored bar between the handles
+		direction: 'ltr', // Put '0' at the bottom of the slider
+		orientation: 'horizontal', // Orient the slider vertically
+		behaviour: 'tap-drag', // Move handle on tap, bar is draggable
+		range: { // Slider can select '0' to '100'
+			'min': 0,
+			'max': 500
+		},
+		pips: { // Show a scale with the slider
+			mode: 'steps',
+			density: 10
+		}
+
+	});
+
+	
+
+	// 
+
+
+	var x = {}
+	var displayDocs = {}
+	
+	var i = 0
+	var text = ''
+	{% for item in docs %}
+
+	var tags_store = []
+		{% for tag in item.tags.all %}
+ 				tags_store.push('{{tag.name}}')
+		{% endfor%}
 		
+		 x[i] = {
+		 			id:'{{item.id}}',
+		 			name:'{{item.name}}',
+		 			uploadedDate:'{{item.uploadedDate|date:"SHORT_DATE_FORMAT"}}',
+		 			price:'{{item.price}}',
+		 			tags : tags_store
+		 			
+		 		}	
+
+		 i = i + 1
 	{% endfor %}
+
 	
+
+	i=0
+	$.each(x,function(index,value){
+		console.log(value["tags"])
+		displayDocs[i] = {
+							name:value["name"],
+							id:value["id"],
+							uploadedDate:value['uploadedDate'],
+							price:value['price'],
+							tags:value['tags']
+						}
+		i=i+1
+	})
+
+
+	function new_display(id){
+		
+		$(".panel a").filter(function(i){
+		    return $.inArray( $(this).attr('id').substring(4),id) != -1;
+		}).closest('.panel').show();
+	}
+	
+	$('#id_name_search').on('input',function(){
+		var id = []
+		$('.panel').hide();
+		var that = this
+		$.each(x,function(index,value){
+		 	
+			if(value["name"].toLowerCase().indexOf(that.value.toLowerCase()) != -1){
+
+				id.push(value["id"]) 
+			}
+		})
+
+		new_display(id)
+	})
+
+	$('#id_on_date_search').on('change',function(){
+		var id = []
+		$('.panel').hide();
+		var that = this
+		$.each(x,function(index,value){
+		 	// alert(new Date(value["uploadedDate"]) <= new Date(that.value))
+			if((value["uploadedDate"] === that.value)){
+
+				id.push(value["id"]) 
+			}
+		})
+		new_display(id)
+	})
+
+	$('#id_before_date_search').on('change',function(){
+		var id = []
+		$('.panel').hide();
+		var that = this
+		$.each(x,function(index,value){
+		 	// alert(new Date(value["uploadedDate"]) <= new Date(that.value))
+			if(new Date(value["uploadedDate"]) < new Date(that.value)){
+
+				id.push(value["id"]) 
+			}
+		})
+		new_display(id)
+	})
+
+	$('#id_after_date_search').on('change',function(){
+		var id = []
+		$('.panel').hide();
+		var that = this
+		$.each(x,function(index,value){
+		 	// alert(new Date(value["uploadedDate"]) <= new Date(that.value))
+			if(new Date(value["uploadedDate"]) > new Date(that.value)){
+
+				id.push(value["id"]) 
+			}
+		})
+		new_display(id)
+	})
+
+	$('#id_end_between_date_search').on('change',function(){
+		var id = []
+		$('.panel').hide();
+		var that = this
+		$.each(x,function(index,value){
+		 	// alert($('#id_start_between_date_search').val())
+			if((new Date(value["uploadedDate"]) <= new Date(that.value) )&&(new Date(value["uploadedDate"]) >= new Date($('#id_start_between_date_search').val()) )  ){
+				
+				id.push(value["id"]) 
+			}
+		})
+		new_display(id)
+	})
+
+	slider.noUiSlider.on('update', function( values, handle ) {
+		if ( handle ) {
+			$('#id_price_max').val(values[handle])
+		} else {
+			$('#id_price_min').val(values[handle])
+		}
+	
+		var id = []
+		$('.panel').hide();
+		var that = this
+		$.each(x,function(index,value){
+			if( ( parseInt(value["price"])  <= $('#id_price_max').val() ) && (parseInt(value["price"] ) >= $('#id_price_min').val()) ){
+				
+				id.push(value["id"]) 
+			}
+		})
+		new_display(id)
+	})
+	// start -> creating the html for PANEL
+	$.each(displayDocs,function(index,value){
+
+		text = text + ('<div class="panel panel-default"> <div class="panel-heading" role="tab" id="heading'+ value["id"] +'">')
+		text = text + '<h4 class="panel-title">'
+		text = text + '<a role="button" id="file'+ value["id"] +'" data-toggle="collapse" data-parent="#accordion" href="#collapse-'+ value["id"] +'" aria-expanded="false" aria-controls="collapse-'+ value["id"] +'">'+ value["name"] +'- Uploaded date:'+value["uploadedDate"] +'- price:'+value["price"] +'- tags:'+value["tags"] +'</a>'
+		text = text + '</h4>'
+		text = text + '</div>'
+						    
+		text = text + '<div id="collapse-'+ value["id"] +'" class="panel-collapse collapse " role="tabpanel" aria-labelledby="heading'+ value["id"] +'">'
+								      
+		text = text + '<div class="panel-body">'
+		text = text + '</div>'						       
+		text = text + '</div></div>'
+	})
+	// end -> creating the html for PANEL
+	$('.class_doc_list').html(text)
+
+	$(function() {
+			
+		$( ".datepicker" ).datepicker();
+
+		$('.date_tabs a').click(function (e) {
+		  e.preventDefault()
+		  $(this).tab('show')
+		})
+		// $('#search_body > div').hide()
+
+		$('.namebtn').click(function(){
+			$('#name_search').show()
+			$('#name_search').siblings().hide();
+
+		})
+
+		$('.datebtn').click(function(){
+
+			$('#date_search').show()
+			$('#date_search').siblings().hide()
+
+		})
+
+		$('.pricebtn').click(function(){
+
+			$('#price_search').show()
+			$('#price_search').siblings().hide()
+
+		})
+
+		$('.typebtn').click(function(){
+
+			$('#type_search').show()
+			$('#type_search').siblings().hide()
+
+		})
+
+		$('.tagsbtn').click(function(){
+
+			$('#tags_search').show()
+			$('#tags_search').siblings().hide()
+
+		})
+
+		$('.topicsbtn').click(function(){
+
+			$('#topics_search').show()
+			$('#topics_search').siblings().hide()
+
+		})
+	})
+
+	function extractLast( term ) {
+	  return split( term ).pop();
+	}
+
+	function split( val ) {
+	  return val.split( /,\s*/ );
+	}    
+
+	var terms = []
+    var keys_final = []
+    var keys = [];
+    $.getJSON("/printo-app/get_tags/", function (dictionary) {
+        
+
+
+
+        for (var key in dictionary) {
+          if (dictionary.hasOwnProperty(key)) {
+            keys.push(key.toLowerCase());
+          }
+        }
+        
+        $( "#id_tags_proxy" )
+        .bind( "keydown", function( event ) {
+        	// start - removing already entered value from the dropdown source
+        	keys_final = []
+        	keys.filter(function(n) {
+					// alert(terms_array.indexOf(n) != -1)
+			    if( terms.indexOf(n) == -1 ){
+			    	keys_final.push(n) 
+			    }
+			})
+			// end - removing already entered value from the dropdown source
+
+          if ( event.keyCode === $.ui.keyCode.TAB &&
+              $( this ).autocomplete( "instance" ).menu.active ) {
+
+            event.preventDefault();
+
+          }
+
+        })
+        .autocomplete({
+           source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            keys_final, extractLast( request.term ) ) );
+          },
+          focus: function() {
+            // prevent value inserted on focus
+            return false;
+          },
+          select: function( event, ui ) {
+          	terms = terms
+
+           
+	      	terms.push( ui.item.value.toLowerCase()  );
+	      	terms_array = terms
+		      
+	      	// terms.push( "" );
+	      	$(this).after('<span class="tag">'+ ui.item.value.toLowerCase() +'</span>');
+		      // this.value = terms.join( ", " );
+      		this.value = ''
+             // ==============================================
+          	var id = []
+			$('.panel').hide();
+			var that = this
+			$.each(x,function(index,value){
+
+				value["tags"].filter(function(n) {
+					// alert(terms_array.indexOf(n) != -1)
+			    if( terms.indexOf(n.toLowerCase()) != -1 ){
+			    	id.push(value["id"]) 
+			    }
+			});
+
+			})
+			new_display(id)
+			// ===============================================
+
+
+              return false;
+          }
+        }); 
+    });
+	$('#tags').on('click','.tag',function(){
+		
+     if(confirm("Really delete this tag?")) {
+
+     	$(this).remove(); 
+     	
+     	terms.splice(terms.indexOf($(this).text()),1)	
+     }
+
+     	var id = []
+			$('.panel').hide();
+			var that = this
+			$.each(x,function(index,value){
+
+				value["tags"].filter(function(n) {
+					// alert(terms_array.indexOf(n) != -1)
+			    if( terms.indexOf(n.toLowerCase()) != -1 || terms.length == 0){
+			    	id.push(value["id"]) 
+			    }
+			});
+
+			})
+		new_display(id)
+
+  });
+
+</script>
+		
+
 {% endblock %}

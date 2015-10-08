@@ -308,7 +308,7 @@ from django.core import serializers
 
 def get_universitys(request):
     p={}
-    # import ipdb; ipdb.set_tra ce()
+    # import ipdb; ipdb.set_trace()
     for c in University.objects.all():
         p[c.name] = (c.name,c.pk)
     return HttpResponse(json.dumps(p), content_type="application/json")

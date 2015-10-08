@@ -113,6 +113,7 @@
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title">Modal title</h4>
+              <input id="id_marker_address" class="form-control"/>
           </div>
           <div class="modal-body">
               <p>One fine body&hellip;</p>
@@ -270,14 +271,26 @@
       
       }); // $(function)ends
 
+
+      function geocodePosition(pos) {
+        geocoder.geocode({
+          latLng: pos
+        }, function(responses) {
+          if (responses && responses.length > 0) {
+            $("#id_marker_address").val(responses[0].formatted_address);
+          } else {
+            updateMarkerAddress('Cannot determine address at this location.');
+          }
+        });
+      }
       
       function initialize(cords) {
-         
+         geocoder = new google.maps.Geocoder();
           var lat = cords[0];
           var lng = cords[1];
           var myOptions = {
              center: new google.maps.LatLng(lat, lng),
-             zoom: 15,
+             zoom: 18,
              mapTypeId: google.maps.MapTypeId.ROADMAP
            };
           var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
@@ -289,7 +302,14 @@
             title: 'Click to position!'
           });
            
-          google.maps.event.addListener(marker, 'click', function (event) {
+          google.maps.event.addListener(marker, 'dragend', function (event) {
+// 
+  geocodePosition(marker.getPosition());
+
+// 
+
+
+
           document.getElementById("id_latitude").value = event.latLng.lat();
           document.getElementById("id_longitude").value = event.latLng.lng();
           document.getElementById("id_latitude").value = document.getElementById("id_latitude").value.substring(0,9
