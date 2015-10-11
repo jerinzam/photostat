@@ -81,9 +81,10 @@ def indexEmp(request):
 
 @login_required
 def docUpload(request):
+    user = UserProfile.objects.get(user=request.user)
     if(request.method=='POST'):
         # import ipdb; ipdb.set_trace();
-        user = UserProfile.objects.get(user=request.user)
+        
         if(user.userType == 1 ):
             org = Organization.objects.get(owner = request.user)
         elif(user.userType == 2):
@@ -99,18 +100,24 @@ def docUpload(request):
     else:
         form = DocUploadForm()
         context = { "docUploadForm" : form }
-        return render(request,'printo_app/docUpload.html',context)
+        if(user.userType == 1 ):
+            return render(request,'printo_app/docUpload-owner.html',context)
+        if(user.userType == 2 ):
+            return render(request,'printo_app/docUpload-emp.html',context)
 
 @login_required
 def docList(request):
     user = UserProfile.objects.get(user=request.user)
     if(user.userType == 1  ):
         org = Organization.objects.get(owner = request.user)
+        docList = Document.objects.filter(is_public=True).filter(organization=org)
+        context = {"docs":docList}
+        return render(request,'printo_app/docList-owner.html',context)
     elif(user.userType == 2):
         org = Organization.objects.get(employee = request.user)
     docList = Document.objects.filter(is_public=True).filter(organization=org)
     context = {"docs":docList}
-    return render(request,'printo_app/docList.html',context)
+    return render(request,'printo_app/docList-emp.html',context)
 
 @login_required
 def docDetail(request,docid):
@@ -301,10 +308,11 @@ def indexOwner(request):
     context = {}
     return render(request,'ownerMain.html',context)
 
+# ====================================
+# DATA PROVIDERS
+# ====================================
 import json
 from django.core import serializers
-
-
 
 def get_universitys(request):
     p={}

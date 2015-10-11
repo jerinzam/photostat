@@ -1,18 +1,407 @@
+
 {% extends "ownerMain.html" %}
 
-{% block content %}
+{% block owner-content %}
 
 	
+	<h1 class="page-header">Upload a Document</h1>
 	
-	<h3>Upload a DOCUMENT</h3>
-	
-	<form action="{% url 'documentUpload' %}" enctype="multipart/form-data" method="post">
+	<form id="docForm" action="{% url 'documentUploadOwner' %}" enctype="multipart/form-data" method="post">
 	    {% csrf_token %}
 
-	  {{ docUploadForm.as_ul }}
+    <div class="row">
 
-	    <input type="submit" value="Submit" />
+      <div class="container col-md-4 col-md-offset-1">
+        <p><label for="id_uuid">Uuid:</label> <input id="id_uuid" maxlength="60" name="uuid" type="text" /></p>
+
+        <div>
+          <label for="id_name">Name:</label> 
+          <input id="id_name" class="form-control" maxlength="200" name="name" type="text" />
+        </div>
+
+        <div>
+          <label>Document Type:</label><br>
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-primary" id="notebtn" for="id_doc_type_0">
+                Notes
+                <input id="id_doc_type_0" name="doc_type" type="radio" value="1" />
+            </label>
+
+            <label class="btn btn-primary" id="textbookbtn" for="id_doc_type_1">
+                TextBook
+                <input id="id_doc_type_1" name="doc_type" type="radio" value="2" />
+            </label>
+
+            <label class="btn btn-primary" for="id_doc_type_2">
+                Project
+                <input id="id_doc_type_2" name="doc_type" type="radio" value="3" />
+            </label>
+          </div>
+        </div>
+
+        <br>
+
+        <div>
+          <label for="id_display_doc">Display doc:</label> 
+          <input id="id_display_doc" name="display_doc" type="file" />
+        </div>
+
+        <div>
+        	<label for="id_tags_proxy">Tags:</label> 
+        	<input  class="form-control" type="text" multiple="multiple" id="id_tags_proxy" />
+        </div>
+
+        <div>
+        	<label for="id_topics_proxy">Topic:</label> 
+        	<input type="text" class="form-control" multiple="multiple" id="id_topics_proxy" />
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div>
+            	<label for="id_courses_proxy">Courses:</label> 
+            	<input  class="form-control" type="text" multiple="multiple" id="id_courses_proxy" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div>
+            	<label for="id_universitys_proxy">University:</label> 
+            	<input  class="form-control" type="text" multiple="multiple" id="id_universitys_proxy" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div>
+              <label for="id_pages">Pages:</label> 
+              <input  class="form-control" id="id_pages" name="pages" type="number" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <p>
+              <label for="id_price">Price:</label> 
+              <input  class="form-control" id="id_price" name="price" step="0.01" type="number" />
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="container col-md-4 col-md-offset-1">
+       
+
+          <div id="notes_related" style="display: none;">
+            <p>
+                <label for="id_author_names">Note Owner:</label> 
+                <input id="id_author_names" class="form-control" name="author_names" >
+                </textarea>
+            </p>
+          </div>
+          <div id="textbook_related" style="display: none;" >
+              <div>
+                <label for="id_pageNoRange">Page number Ranges:</label> 
+                <input id="id_pageNoRange"class="form-control" maxlength="100" name="pageNoRange" type="text" />
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="id_publishers_proxy">Publishers:</label> 
+                  <input type="text"class="form-control" multiple="multiple" id="id_publishers_proxy" />
+                </div>
+                <div class="col-md-6">
+                  <label for="id_edition">Edition:</label> 
+                  <input id="id_edition"class="form-control" name="edition" type="number" />
+                </div>
+              </div>
+              <br>
+              <div>
+                <label for="id_author_names">Author names:</label> 
+                <input  class="form-control"id="id_author_names" name="author_names" >
+                </input>
+              </div>
+              <br>
+              <input class="btn btn-success" type="submit" value="Submit" />
+          </div>
+          <div id="project_related" style="display: none;">
+          </div>
+      </div>
+	    
+    </div>
 	</form>
 		
 	
+{% endblock %}
+
+
+
+{% block javascript %}
+<script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?AIzaSyBCSR9MrS1OxOiLSezXTOFKtkpDZAzGruE&sensor=true"></script>
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  
+  <script>
+  $(function() {
+
+    $('#notebtn').click(function(){
+          $('#textbook_related').hide()
+          $('#notes_related').show()
+    })
+    $('#textbookbtn').click(function(){     
+          $('#notes_related').hide()
+          $('#textbook_related').show()
+    })
+
+function extractLast( term ) {
+  return split( term ).pop();
+}
+
+function split( val ) {
+  return val.split( /,\s*/ );
+}    
+
+    $.getJSON("/printo-app/get_tags/", function (dictionary) {
+        var keys = [];
+
+
+
+        for (var key in dictionary) {
+          if (dictionary.hasOwnProperty(key)) {
+            keys.push(key);
+          }
+        }
+
+        $( "#id_tags_proxy" )
+        .bind( "keydown", function( event ) {
+          if ( event.keyCode === $.ui.keyCode.TAB &&
+              $( this ).autocomplete( "instance" ).menu.active ) {
+            event.preventDefault();
+          }
+        })
+        .autocomplete({
+           source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            keys, extractLast( request.term ) ) );
+          },
+          focus: function() {
+            // prevent value inserted on focus
+            return false;
+          },
+          select: function( event, ui ) {
+              var terms = split( this.value );
+
+              // // remove the current input
+              terms.pop();
+              // // add the selected item
+              terms.push( ui.item.value );
+              // alert(terms)
+              // // add placeholder to get the comma-and-space at the end
+              terms.push( "" );
+              this.value = terms.join( ", " );
+              // alert(ui.item.id)
+
+              $("#docForm").append('<input id="'+ ui.item.value +'" type="text" value="'+ dictionary[ui.item.value][1] +'" name="tags"  hidden/>')
+
+              // $('#'+ui.item.value).attr('value', dictionary[ui.item.value][1])
+              // .val('2 2');
+              return false;
+          }
+        }); 
+    });
+
+    $.getJSON("/printo-app/get_topics/", function (dictionary) {
+        var keys = [];
+
+        for (var key in dictionary) {
+          if (dictionary.hasOwnProperty(key)) {
+            keys.push(key);
+          }
+        }
+
+        $( "#id_topics_proxy" )
+        .bind( "keydown", function( event ) {
+          if ( event.keyCode === $.ui.keyCode.TAB &&
+              $( this ).autocomplete( "instance" ).menu.active ) {
+            event.preventDefault();
+          }
+        })
+        .autocomplete({
+           source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            keys, extractLast( request.term ) ) );
+          },
+          focus: function() {
+            // prevent value inserted on focus
+            return false;
+          },
+          select: function( event, ui ) {
+              var terms = split( this.value );
+
+              // // remove the current input
+              terms.pop();
+              // // add the selected item
+              terms.push( ui.item.value );
+              // alert(terms)
+              // // add placeholder to get the comma-and-space at the end
+              terms.push( "" );
+              this.value = terms.join( ", " );
+              // alert(ui.item.id)
+
+              $("#docForm").append('<input id="'+ ui.item.value +'" type="text" value="'+ dictionary[ui.item.value][1] +'" name="topic"  hidden/>')
+
+              // $('#'+ui.item.value).attr('value', dictionary[ui.item.value][1])
+              // .val('2 2');
+              return false;
+          }
+        }); 
+    });
+
+  	$.getJSON("/printo-app/get_courses/", function (dictionary) {
+        var keys = [];
+
+        for (var key in dictionary) {
+          if (dictionary.hasOwnProperty(key)) {
+            keys.push(key);
+          }
+        }
+
+        $( "#id_courses_proxy" )
+        .bind( "keydown", function( event ) {
+          if ( event.keyCode === $.ui.keyCode.TAB &&
+              $( this ).autocomplete( "instance" ).menu.active ) {
+            event.preventDefault();
+          }
+        })
+        .autocomplete({
+           source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            keys, extractLast( request.term ) ) );
+          },
+          focus: function() {
+            // prevent value inserted on focus
+            return false;
+          },
+          select: function( event, ui ) {
+              var terms = split( this.value );
+
+              // // remove the current input
+              terms.pop();
+              // // add the selected item
+              terms.push( ui.item.value );
+              // alert(terms)
+              // // add placeholder to get the comma-and-space at the end
+              terms.push( "" );
+              this.value = terms.join( ", " );
+              // alert(ui.item.id)
+
+              $("#docForm").append('<input id="'+ ui.item.value +'" type="text" value="'+ dictionary[ui.item.value][1] +'" name="course"  hidden/>')
+
+              // $('#'+ui.item.value).attr('value', dictionary[ui.item.value][1])
+              // .val('2 2');
+              return false;
+          }
+        }); 
+    }); 	
+
+	$.getJSON("/printo-app/get_universitys/", function (dictionary) {
+        var keys = [];
+
+        for (var key in dictionary) {
+          if (dictionary.hasOwnProperty(key)) {
+            keys.push(key);
+          }
+        }
+
+        $( "#id_universitys_proxy" )
+        .bind( "keydown", function( event ) {
+          if ( event.keyCode === $.ui.keyCode.TAB &&
+              $( this ).autocomplete( "instance" ).menu.active ) {
+            event.preventDefault();
+          }
+        })
+        .autocomplete({
+           source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            keys, extractLast( request.term ) ) );
+          },
+          focus: function() {
+            // prevent value inserted on focus
+            return false;
+          },
+          select: function( event, ui ) {
+              var terms = split( this.value );
+
+              // // remove the current input
+              terms.pop();
+              // // add the selected item
+              terms.push( ui.item.value );
+              // alert(terms)
+              // // add placeholder to get the comma-and-space at the end
+              terms.push( "" );
+              this.value = terms.join( ", " );
+              // alert(ui.item.id)
+
+              $("#docForm").append('<input id="'+ ui.item.value +'" type="text" value="'+ dictionary[ui.item.value][1] +'" name="university"  hidden/>')
+
+              // $('#'+ui.item.value).attr('value', dictionary[ui.item.value][1])
+              // .val('2 2');
+              return false;
+          }
+        }); 
+    }); 
+
+    $.getJSON("/printo-app/get_publishers/", function (dictionary) {
+        var keys = [];
+
+        for (var key in dictionary) {
+          if (dictionary.hasOwnProperty(key)) {
+            keys.push(key);
+          }
+        }
+
+        $( "#id_publishers_proxy" )
+        .bind( "keydown", function( event ) {
+          if ( event.keyCode === $.ui.keyCode.TAB &&
+              $( this ).autocomplete( "instance" ).menu.active ) {
+            event.preventDefault();
+          }
+        })
+        .autocomplete({
+           source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            keys, extractLast( request.term ) ) );
+          },
+          focus: function() {
+            // prevent value inserted on focus
+            return false;
+          },
+          select: function( event, ui ) {
+              var terms = split( this.value );
+
+              // // remove the current input
+              terms.pop();
+              // // add the selected item
+              terms.push( ui.item.value );
+              // alert(terms)
+              // // add placeholder to get the comma-and-space at the end
+              terms.push( "" );
+              this.value = terms.join( ", " );
+              // alert(ui.item.id)
+
+              $("#docForm").append('<input id="'+ ui.item.value +'" type="text" value="'+ dictionary[ui.item.value][1] +'" name="publisher"  hidden/>')
+
+              // $('#'+ui.item.value).attr('value', dictionary[ui.item.value][1])
+              // .val('2 2');
+              return false;
+          }
+        }); 
+    }); 	
+
+  });
+  
+
+  </script>
 {% endblock %}

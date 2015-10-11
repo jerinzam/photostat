@@ -1,0 +1,312 @@
+
+{% extends "base.html" %}
+{% block ajax %}
+
+<style>
+    /* CSS Document */
+section #profile-container {
+	width: 960px;
+	margin: auto; }
+ 
+section .profile-right {
+	float: right;
+	background-color: #dddddd;
+	padding: 15px 0px 15px 12px; }
+ 
+	section .profile-right h3 {
+		background-color: #272727;
+		color: #f2a820;
+		padding: 8px 0px 8px 9px;
+		font-size: 16px; }
+ 
+	section .profile-right ul {
+		padding-top: 17px;
+		width: 270px;
+		padding-right: 33px; }
+ 
+		section .profile-right ul li {
+			font-size: 14px;
+			color: #333333;
+			padding-bottom: 20px;
+			line-height: 1.2em; }
+ 
+			section .profile-right ul li span {
+				padding: 0px 9px 0px 9px;
+				color: #7d7f7f;
+				font-family: 'collatorregular', Arial;
+				float: left;
+				margin-bottom: 10px; }
+ 
+.profile-section {
+	float: left;
+	width: 560px;
+	padding: 21px 22px 20px 23px;
+	background-color: #ffffff; }
+ 
+.profile-head p {
+	font-size: 16px;
+	font-family: 'collatorregular', Arial;
+	color: #cccccc;
+	margin-bottom: 5px; }
+ 
+.profile-head h2 {
+	font-size: 22px;
+	font-family: 'collatorregular', Arial;
+	padding-bottom: 15px; }
+ 
+.profile-yourself h3 {
+	padding: 12px 0px 30px 0px;
+	font-family: 'noticia_textregular', Georgia;
+	color: #666666;
+	font-size: 14px; }
+ 
+.profile-yourself p {
+	font-size: 12px;
+	color: #999999;
+	font-family: 'noticia_textitalic','noticia_textregular'; }
+ 
+	.profile-yourself p span {
+		font-family: 'noticia_textregular';
+		color: #666666;
+		font-size: 14px; }
+ 
+	.profile-yourself p a {
+		color: #178fac;
+		font-size: 12px;
+		font-family: 'noticia_textregular';
+		text-decoration: underline; }
+ 
+.profile-submit {
+	background: #272727;
+	color: #fff;
+	height: 30px;
+	line-height: 30px;
+	margin: 60px -20px 0 -20px;
+	padding: 15px 0;
+	text-align: left !important; }
+ 
+	.profile-submit input {
+		background: #eb2227;
+		border: none;
+		color: #fff;
+		cursor: pointer;
+		float: right;
+		font-weight: bold;
+		margin: 0 0 0 230px;
+		padding: 6px 10px;
+		margin-right: 27px; }
+ 
+form.baseForm .name-section {
+	float: left;
+	width: 100%; }
+ 
+	form.baseForm .name-section input {
+		float: left;
+		width: 274px; }
+ 
+form.baseForm .location-section select {
+	float: left;
+	width: 286px; }
+ 
+form.baseForm .name-section input.second {
+	width: 247px;
+	margin-left: 15px; }
+ 
+form.baseForm .location-section select.second {
+	width: 259px;
+	margin-left: 15px; }
+ 
+.location-section {
+	float: left;
+	width: 100%; }
+ 
+.birth-gender-section {
+	float: left;
+	width: 100%;
+	margin-top: 10px; }
+ 
+.birth-section {
+	float: left;
+	width: 286px;
+	margin-right: 15px;
+	margin-bottom: 10px; }
+ 
+	.birth-section p { margin-bottom: 0px; }
+ 
+.gender-section { float: left; }
+ 
+	.gender-section p { margin-bottom: 0px; }
+ 
+form.baseForm .daydrp {
+	width: 25%!important;
+	margin-right: 10px !important; }
+ 
+.priovacy-title { padding: 10px 0px; }
+ 
+.profile-term {
+	float: left;
+	margin-bottom: 20px;
+	width: 100%; }
+ 
+	.profile-term label {
+		float: left;
+		font-size: 14px;
+		margin-left: 5px;
+		padding-bottom: 2px; }
+ 
+	.profile-term input { float:left;padding: 10px 0px 10px 0px }
+ 
+.label-1 {
+	color: #666666;
+	font-family: 'noticia_textregular'; }
+ 
+.profile-term label.label-2 {
+	color: #666666;
+	font-family: 'noticia_textitalic';
+	font-size: 12px; }
+ 
+.profile-image {
+	float: left;
+	width: 100%;
+	margin-bottom: 10px; }
+ 
+.image-left {
+	float: left;
+	margin-right: 15px; }
+ 
+.image-right {
+	width: 380px;
+	float: left; }
+ 
+	.image-right p {
+		margin-bottom: 0px;
+		font-size: 12px;
+		color: #999999;
+		font-family: 'noticia_textitalic','noticia_textregular'; }
+ 
+		.image-right p a {
+			color: #178fac;
+			font-size: 12px;
+			font-family: 'noticia_textregular';
+			text-decoration: underline; }
+ 
+	
+
+ 
+ 
+
+#FileUpload{
+position: relative;
+margin-top: 1%;
+}
+.BrowserHidden{
+position: relative;
+height: 34px;
+width: 284px;
+text-align: right;
+-moz-opacity: 0;
+filter: alpha(opacity: 0);
+opacity: 0;
+z-index: 2; 
+ }
+ #BrowserVisible {
+position: absolute;
+background: url(../images/browse-button.jpg) no-repeat top right;
+top: 0px;
+left: 0px;
+z-index: 1;
+
+height:34px;
+width: 284px;
+}
+#FileField {
+width: 200px;
+height: 22px;
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<!-- START - BREADCRUMBS -->
+	<section id="breadCrumbs">
+		<div id="breadCrumbsWrp">
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li class="selected">Create Profile</li>
+			</ul>
+		</div>
+	</section>
+	<!-- END - BREADCRUMBS -->	
+	
+	<!-- START - NAV INFO -->
+	
+	<!-- END - NAV INFO -->
+	
+	<!-- Profile Section Start -->
+	
+	<section class="profile clearFix">
+    <div id="profile-container">
+	<div class="profile-section">
+	  <div class="profile-head">
+	
+
+<h3>Ready to discover what <span class="red">a</span><span class="yellow">r</span>t<span class="blue">s</span>tyx is?</h3>
+					<hr color="#eee" />
+					<h4><b>Sign up for free and reveal your art profile.</b></h4>
+					<h5>Our team of insiders will hand pick your personalized collection of artwork.</h5>
+					<form>
+						<a href="/login/facebook/"><input  class="facebookLogin" type="button" /> </a>
+						<a href="/login/google-oauth2/"><input class="googleLogin" type="button" /> </a>
+
+					</form>
+					<div>
+						<span class="orDs">Or</span>
+						<span class="brdr"></span>
+					</div>
+					<h4>Don't have a Facebook or Google account? No problem - you don't need one!</h4><br />
+					{% if form.errors %}
+<strong><i>Please correct the errors below:
+{{ form.non_field_errors }}</i>
+{% endif %}
+<p>
+     <form class ="signUpForm" enctype="multipart/form-data"  method="post" action=""> {% csrf_token %}
+
+  <dl>
+{% for field in form %}
+
+    <dd>{{ field }}</dd>
+    {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}
+    {% if field.errors %}{{ field.errors }} {% endif %}
+{% endfor %}
+  
+</dl>
+Please agree to to terms and Conditions of the web site by clicking on the above
+
+	<div class="loginSignUp clearFix">
+		
+							
+<input type="submit" value="Submit" /> 
+</form><span class="signHere">Already a member?, <br/><a class="signIn" href="#">Login here...</a></span>
+						</div>
+						
+						
+						
+	</div>	</div>
+	<div class="profile-right">
+	<h3>Why Join Artstyx?</h3>
+	<ul>
+	<li><span>01</span>Discover art from over 100 countries</li>
+	<li><span>02</span>Curate collections and share with friendsSave Favorites</li>
+	<li><span>03</span>Buy art today from tomorrow's rising stars</li>
+	
+	</ul>
+	</div>
+	</div>
+	</section>
+     <!-- Profile Section End -->
+   	
+{% endblock %}

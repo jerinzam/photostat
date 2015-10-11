@@ -14,11 +14,11 @@ urlpatterns = [
 
 urlpatterns += [
                       
-                        url(r'^accounts/login/$',
+                        url(r'^printo-app/login/$',
                            auth_views.login,
                            {'template_name': 'registration/login.html'},
                            name='auth_login'),
-                       url(r'^accounts/logout/$',
+                       url(r'^printo-app/logout/$',
                            auth_views.logout,
                            {'template_name': 'registration/logout.html'},
                            name='auth_logout'),

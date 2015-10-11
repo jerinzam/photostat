@@ -1,0 +1,958 @@
+
+{% extends "empMain.html" %}
+
+
+
+{% block sub_css %}
+
+<style type="text/css">
+	.navbar{
+		box-shadow: 0 0 3px rgba(0,0,0,0.8)
+		
+	}
+	.fixed {
+        
+        position: fixed;
+        width: 200px;
+        top:70px;
+        margin-left:3.3%;
+        /*text-align: right;*/
+	}
+	.scrollit {
+
+		position: relative;
+		width:600px;
+		left: 258px;
+		padding-top: 45px;
+	                
+	}
+
+	.fixed1{
+		width: 250px;
+		position: fixed;
+		top:50px;
+		right: 140px;
+
+	}
+	.he{
+		background: #eee;
+		padding: 20px;
+		padding-bottom: 0px;
+		top:10px;
+		width:44.35%;
+		position: fixed;
+		left: 363.5px;
+		z-index: 100;
+		box-shadow: 0 0 12px rgba(0,0,0,0.2);
+		border-bottom: 1px solid #ddd;
+		border-radius: 0px !important;
+	}
+	body { padding-top: 70px; }
+
+	.border{
+
+		/*border:1px solid black;*/
+	}
+
+	/*===========================================*/
+
+		.border{
+			/*border: 1px solid black;*/
+		}
+		.filter{
+			margin-top: 20px;
+			padding: 1px !important;
+			/*width: 26.5% !important;*/
+
+			/*border:1px solid black;*/
+		}
+
+		.date_tabs li a{
+			/*color: red;*/
+			padding-left: 10px !important;
+			padding-right: 11.5px !important;
+		}	
+
+		#tags{
+		 /* float:left;
+		  border:1px solid #ccc;
+		  padding:5px;
+		  font-family:Arial;*/
+		}
+		#tags span.tag{
+		  cursor:pointer;
+		  display:block;
+		  float:left;
+		  color:#fff;
+		  background:#689;
+		  padding:5px;
+		  padding-right:25px;
+		  margin:4px;
+		}
+		#tags span.tag:hover{
+		  opacity:0.7;
+		}
+		#tags span.tag:after{
+		 position:absolute;
+		 content:"x";
+		 border:1px solid;
+		 padding:0 4px;
+		 margin:3px 0 10px 5px;
+		 font-size:10px;
+		}
+		#tags input{
+		  /*background:#eee;
+		  border:0;*/
+		  /*margin:4px;*/
+		  /*padding:7px;*/
+		  /*width:auto;*/
+		}
+
+		.panel-title a {
+		    display: block;
+		    padding: 10px 15px;
+		    margin: -10px -15px;
+		}
+
+		.doc_details_sub{
+		    background: #f8f8f8;
+		    padding: 15px;
+		    box-shadow: inset 0 5px 7px -5px rgba(0,0,0,0.25),inset 0 -3px 7px -5px rgba(0,0,0,0.25);
+		    /*padding-top: 0px !important;*/
+		}
+		h3{
+		    font-size: 20px !important;
+		    font-weight: bolder !important;
+		}
+
+		.tags_content, .topics_content{
+			padding: 5px;
+			width: 98%;
+			font-size: 12px;
+			margin-top:-5px;
+		}
+
+		td{
+			padding-bottom: 15px !important;
+		}
+
+		.date {
+		    float: left;
+		    margin: -1px 10px 0 -65px;
+		    height: 35px;
+		    width: 35px;
+		    text-align: center;
+		    font-size: 10px;
+		    text-transform: uppercase;
+		    color: #999;
+		    font-weight: normal;
+		}
+		div.main-block {
+		    /*cursor: pointer;*/
+		    display: inline-block;
+		    box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    -webkit-box-sizing: border-box;
+		    -ms-box-sizing: border-box;
+		    width: 220px;
+		    padding: 9px 2px 6px 68px;
+		    /*position: relative;*/
+		}
+		div.number {
+		    margin-top: -3px;
+
+		    font-size: 20px;
+		}
+
+		div.main-block>.header {
+		    font-size: 16px;
+		    font-weight: bold;
+		    overflow-x: hidden;
+		    overflow-y: hidden;
+		    height: 40px;
+		    margin-top: 0;
+		    margin-left: -20px;
+		}
+		div.main-block>.header .description {
+			height: 35px;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		    margin-left: 0px;
+		    margin-top: 2px;
+		    max-width: 200px;
+		    min-width: 150px;
+		    display: inline-block;
+		    padding-bottom: 2px;
+		}
+
+		div.cost, div.action {
+		    position: relative;
+		    cursor: pointer;
+		    display: inline-block;
+		    white-space: nowrap;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    vertical-align: top;
+		    padding: 11px 4px 12px;
+		    font-size: 12px;
+		    width: 69px;
+		    color: #aaa;
+		    line-height: 15px;
+		}
+		div.action{
+			margin-top: -5px;
+			vertical-align: top;
+			margin-left: 8px;
+			width: 35px;
+		}
+
+		div.cost .negative {
+		    color: #ff652f;
+		    font-weight: bold;
+		    font-size: 16px;
+		}
+
+		div.pages, div.type {
+		    text-align: right;
+		    width: 100px;
+		    padding: 11px 10px 12px 5px;
+		    font-size: 12px;
+		    line-height: 15px;
+		    white-space: nowrap;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    display: inline-block;
+		    vertical-align: top;
+		    color: #aaa;
+		    cursor: pointer;
+		}
+		div.type{
+			width: 60px;
+		}
+		div.pages .number {
+		    color: #000;
+		    font-weight: bold;
+		    font-size: 16px;
+		}
+		.filesize {
+			 color: darkgrey;
+		    font-weight: normal !important;
+		    font-size: 10px !important;
+		}
+		div.type .number  {
+			 color: darkgrey;
+		    font-weight: bold;
+		    font-size: 16px;
+		}
+
+
+
+		div.panel-heading{
+			padding: 0px;
+			background: white !important;
+			
+		}
+
+		 a.delete {
+		    color: grey;
+		    /*background: rgba(249,249,249,0.8);*/
+
+		    /*font-weight: bold;*/
+		    font-size: 20px;
+		    position: ;
+		    /*top: 1px;*/
+		    right: 0px;
+		    /*padding: 5px;*/
+		}
+		a.print {
+		    color: grey;
+		    
+		    /*background: rgba(249,249,249,0.8);*/
+		    /*font-weight: bold;*/
+		    font-size: 15px;
+		    position: ;
+		    margin-top: -6px;
+		    /*right: 10px;*/
+		    padding: 8px;
+		    /*margin-right: 10px; */
+		}
+
+		.print-badge{
+			background-color: grey !important;
+		}
+
+		.filter_choices {
+			background: #5BC5A7;
+			margin-top: .5%;
+			width:100%;
+			margin-bottom: 0px;
+			/*border-top: 1px solid lightgrey;*/
+			/*border-bottom: 1px solid lightgrey;*/
+			padding:3px 0px !important;
+			padding-left: 8px !important;
+		}
+		.filter_choices .btn{
+			margin: 4px 2.46px !important;
+			/*margin-left: 1px !important;*/
+			border: none;
+			/*border: 1px solid grey !important;*/
+			color: #39A385 !important;
+			background: white !important;
+			border-radius: 10px !important;
+			font-size: 12px !important;
+			padding: 5px !important;
+		}
+
+		.filter_choices .active{
+			/*border: 1px solid grey !important;*/
+			color: white !important;
+			background:#FF652F !important;
+		}
+
+		.filter .mainbtn{
+			background: #9ED7C7;
+			color: #8EC2B3;
+			
+			border: 1px solid lightgrey;
+			margin: 0px !important;
+			border-radius: 0px !important;
+			
+			width: 50%;
+
+		}
+
+		.filter .mainbtn .active{
+			background: #5BC5A7;
+			color:white;
+		}
+		.mainbtn_container{
+
+			padding: 0px;
+			width: 100%
+		}
+		.newsbtn{
+			/*border-left: px solid white !important;*/
+		}
+		.searchbtn{
+			border-right: 1px solid white !important;
+		}
+
+		.class_search_body{
+			padding: 20px 2px !important;
+			margin-top: -18.8px;
+			background: #5BC5A7;
+		}
+
+		.doc_details_sub td h3{
+
+			padding-top:7px;
+			margin-top: 0px;
+
+		}
+		.class_accordian_table {
+		 border-collapse: collapse;
+		}
+		.class_accordian_table tr  { 
+		  border-bottom: 1px solid lightgrey;
+		}
+		.class_accordian_table tr:first-child {
+		  border-top: none;
+		}
+		.class_accordian_table tr:last-child {
+		  border-bottom: none;
+		}
+
+		.right_top_btns, .left_top_btns{
+			height: 50px;
+		}
+
+
+		 #view_links a {
+		    color: inherit;
+		    display: block;
+		    height: 30px;
+		    font-size: 14px;
+		    /*overflow: hidden;*/
+		    /*white-space: nowrap;*/
+		    /*text-overflow: ellipsis;*/
+		    padding: 3px 8px 2px 8px !important;
+		    text-decoration: none;
+		    border-left: 6px solid #fff;
+		}
+
+		#view_links {
+		    text-align: left;
+		    width: 200px;
+		    margin-left: 2px;
+		    /*overflow: hidden;*/
+		    /*white-space: nowrap;*/
+		    /*text-overflow: ellipsis;*/
+		}
+
+		#left_sidebar .header {
+			width: 100%;
+		    position: relative;
+		    /*margin-left: 5px;*/
+		    background: #5BC5A7;
+		    color: white;
+		    font-size: 11px;
+		    margin-top: 5px;
+		    border-top: 1px solid #f3f3f3;
+		    border-bottom: 1px solid #eee;
+		    text-transform: uppercase;
+		    padding: 5 5px;
+		}
+
+		#view_links a:hover {
+			border-left: 6px solid lightgrey;
+		    background: #eee;
+		    color: #666;
+		}
+
+		#center_column{
+			padding: 0px;
+			
+		}
+		#center_column{
+			box-shadow: 0 0 12px rgba(0,0,0,0.2);
+		}
+		.panel{
+			padding-top: 0px !important;
+			margin-top: 0px !important;
+			border-radius: 0px !important;
+		}
+
+.doc_type_choice{
+	background: none !important;
+	color:green !important;
+	padding: 2px !important;
+	border: 1px solid green	 !important;
+}
+.doc_type_choices .active{
+	background: #FF652F !important;
+	color:white !important;
+	padding: 2px !important;
+	border: 1px solid #FF652F !important;
+}
+
+</style>
+
+{% endblock %}
+
+{% block emp-content %}
+
+	<h2 class="he border page-header">Upload a document</h2><br>
+	<div class="scrollit border">
+		<div id="center_column" class="col-md-12 border">
+			
+			<form id="docForm" action="{% url 'documentUploadEmp' %}" enctype="multipart/form-data" method="post">
+				    {% csrf_token %}
+
+				    <div class="row">
+
+				      <div class="container col-md-4 col-md-offset-1">
+				        <p><label for="id_uuid">Uuid:</label> <input id="id_uuid" maxlength="60" name="uuid" type="text" /></p>
+
+				        <div>
+				          <label for="id_name">Name:</label> 
+				          <input id="id_name" class="form-control" maxlength="200" name="name" type="text" />
+				        </div>
+
+				        <div>
+				          <label>Document Type:</label><br>
+				          <div class="doc_type_choices" data-toggle="buttons">
+				            <label class="btn btn-primary doc_type_choice " id="notebtn" for="id_doc_type_0">
+				                Notes
+				                <input id="id_doc_type_0 " name="doc_type" type="radio" value="1" />
+				            </label>
+
+				            <label class="btn btn-primary doc_type_choice " id="textbookbtn" for="id_doc_type_1">
+				                TextBook
+				                <input id="id_doc_type_1" name="doc_type" type="radio" value="2" />
+				            </label>
+
+				            <label class="btn btn-primary doc_type_choice " for="id_doc_type_2">
+				                Project
+				                <input id="id_doc_type_2" name="doc_type" type="radio" value="3" />
+				            </label>
+				          </div>
+				        </div>
+
+				        <br>
+
+				        <div>
+				          <label for="id_display_doc">Display doc:</label> 
+				          <input id="id_display_doc" name="display_doc" type="file" />
+				        </div>
+
+				        <div>
+				        	<label for="id_tags_proxy">Tags:</label> 
+				        	<input  class="form-control" type="text" multiple="multiple" id="id_tags_proxy" />
+				        </div>
+
+				        <div>
+				        	<label for="id_topics_proxy">Topic:</label> 
+				        	<input type="text" class="form-control" multiple="multiple" id="id_topics_proxy" />
+				        </div>
+				        <div class="row">
+				          <div class="col-md-6">
+				            <div>
+				            	<label for="id_courses_proxy">Courses:</label> 
+				            	<input  class="form-control" type="text" multiple="multiple" id="id_courses_proxy" />
+				            </div>
+				          </div>
+				          <div class="col-md-6">
+				            <div>
+				            	<label for="id_universitys_proxy">University:</label> 
+				            	<input  class="form-control" type="text" multiple="multiple" id="id_universitys_proxy" />
+				            </div>
+				          </div>
+				        </div>
+				        <div class="row">
+				          <div class="col-md-6">
+				            <div>
+				              <label for="id_pages">Pages:</label> 
+				              <input  class="form-control" id="id_pages" name="pages" type="number" />
+				            </div>
+				          </div>
+				          <div class="col-md-6">
+				            <p>
+				              <label for="id_price">Price:</label> 
+				              <input  class="form-control" id="id_price" name="price" step="0.01" type="number" />
+				            </p>
+				          </div>
+				        </div>
+				      </div>
+				      <div class="container col-md-4 col-md-offset-1">
+				       
+
+				          <div id="notes_related" style="display: none;">
+				            <p>
+				                <label for="id_author_names">Note Owner:</label> 
+				                <input id="id_author_names" class="form-control" name="author_names" >
+				                </textarea>
+				            </p>
+				          </div>
+				          <div id="textbook_related" style="display: none;" >
+				              <div>
+				                <label for="id_pageNoRange">Page number Ranges:</label> 
+				                <input id="id_pageNoRange"class="form-control" maxlength="100" name="pageNoRange" type="text" />
+				              </div>
+				              <br>
+				              <div class="row">
+				                <div class="col-md-6">
+				                  <label for="id_publishers_proxy">Publishers:</label> 
+				                  <input type="text"class="form-control" multiple="multiple" id="id_publishers_proxy" />
+				                </div>
+				                <div class="col-md-6">
+				                  <label for="id_edition">Edition:</label> 
+				                  <input id="id_edition"class="form-control" name="edition" type="number" />
+				                </div>
+				              </div>
+				              <br>
+				              <div>
+				                <label for="id_author_names">Author names:</label> 
+				                <input  class="form-control"id="id_author_names" name="author_names" >
+				                </input>
+				              </div>
+				              <br>
+				              <input class="btn btn-success" type="submit" value="Submit" />
+				          </div>
+				          <div id="project_related" style="display: none;">
+				          </div>
+				      </div>
+					    
+				    </div>
+			</form>
+
+		</div>	      
+    </div>
+
+	    <div class="fixed1 border">
+         	<div id="right_sidebar" class="col-md-12 border">
+ 				<div class="right_top_btns">
+ 				</div>
+				<div class="filter border">
+					<div class=" btn-group mainbtn_container">
+						<button class="btn btn-lg searchbtn mainbtn ">Search</button>
+						<button class=" btn btn-lg newsbtn mainbtn">News</button>
+					</div>
+				
+					<div class="btn-group filter_choices" data-toggle="buttons">
+						  <label class="btn btn-primary  btn-sm namebtn ">
+						    <input type="radio" name="options" id="id_namebtn" autocomplete="off" checked> name
+						  </label>
+						  <label class="btn btn-primary btn-sm datebtn">
+						    <input type="radio" name="options" id="option2" autocomplete="off"> date
+						  </label>
+						  <label class="btn btn-primary btn-sm pricebtn">
+						    <input type="radio" name="options" id="option3" autocomplete="off"> price
+						  </label>
+
+						  <label class="btn btn-primary btn-sm tagsbtn">
+						    <input type="radio" name="options" id="option3" autocomplete="off"> tags
+						  </label><label class="btn btn-primary btn-sm topicsbtn">
+						    <input type="radio" name="options" id="option3" autocomplete="off"> topic
+						  </label>
+					</div>
+					<br><br>
+					<div id="search_body" class="class_search_body container col-sm-12">
+
+						<div id="name_search" class="col-sm-12 " style="display: none;">
+
+							<label for="id_name_search">Search by File Name:</label> 
+			          		<input id="id_name_search" class="form-control" name="name_search" type="text" />
+			          		<br>
+						</div>
+						<div id="date_search" class="col-sm-12 " style="display: none;">
+
+							<label for="id_nearest_college">Search by Date:</label> 
+							<ul class="nav nav-tabs date_tabs">
+								  <li role="presentation" class="active"><a href="#on_date">on</a></li>
+								  <li role="presentation"><a href="#before_date">before</a></li>
+								  <li role="presentation"><a href="#after_date">after</a></li>
+								  <li role="presentation"><a href="#between_date">between</a></li>
+
+							</ul>
+							<div class="tab-content">
+							    <div role="tabpanel" class="tab-pane active" id="on_date">
+							    	<br>
+							    	<label for="id_on_date_search">File uploaded on:</label> 
+							    	<input id="id_on_date_search" class="form-control datepicker" name="on_input" type="text" />
+							    </div>
+							    <div role="tabpanel" class="tab-pane" id="before_date">
+							    	<br>
+							    	<label for="id_before_date_search">File uploaded before:</label> 
+							    	
+							    	<input id="id_before_date_search" name="before_input" type="text" class=" form-control datepicker"></p>
+							    </div>
+							    <div role="tabpanel" class="tab-pane" id="between_date">
+							    	<br>
+							    	<label for="id_between_date_search">File uploaded between:</label> 
+							    	<input id="id_start_between_date_search" class="form-control  datepicker" name="nearest_college" type="text" /><br>
+							    	and <br><br>
+							    	<input id="id_end_between_date_search" class="form-control  datepicker" name="nearest_college" type="text" />
+							    </div>
+							    <div role="tabpanel" class="tab-pane" id="after_date">
+							    	<br>
+							    	<label for="id_after_date_search">File uploaded after:</label> 
+							    	<input id="id_after_date_search" class="form-control datepicker" name="after_input" type="text" />
+							    </div>
+						  	</div>
+							
+							<br><br>
+			          		
+			          		<br>
+						</div> <!-- end date_search -->
+						<br>
+						<div id="price_search" class="col-sm-12 " style="display: none;">
+							<div class="row">
+								<div class="col-md-4">
+									<input class="form-control" id="id_price_min" value="" disabled/>
+								</div>
+								<div class="col-md-4 pull-right">
+									<input  class="form-control" id="id_price_max" value="" disabled/>
+								</div>
+							</div>
+							<br>
+							<div id="range"></div>
+							<br>
+							<br>
+							<br>
+						</div> <!-- end price_search -->
+						<div id="type_search" class="col-sm-12 " style="display: none;">
+								this is type
+						</div> <!-- end tags_search -->
+						<div id="tags_search" style="display: none;">
+								<div id="tags" class="col-sm-12 ">
+						        	<label for="id_tags_proxy">Tags:</label> 
+						        	<input  class="form-control" type="text" multiple="multiple" id="id_tags_proxy" />
+						        </div>
+						</div> <!-- end tags_search -->
+						<div id="topics_search" class="col-sm-12 " style="display: none;">
+								this is topics
+						</div> <!-- end tags_search -->
+					</div> <!-- end search_body -->
+				</div>
+			</div>
+	    </div>
+	
+{% endblock %}
+
+
+
+{% block javascript %}
+<script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?AIzaSyBCSR9MrS1OxOiLSezXTOFKtkpDZAzGruE&sensor=true"></script>
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  
+  <script>
+  $(function() {
+
+    $('#notebtn').click(function(){
+          $('#textbook_related').hide()
+          $('#notes_related').show()
+    })
+    $('#textbookbtn').click(function(){     
+          $('#notes_related').hide()
+          $('#textbook_related').show()
+    })
+
+function extractLast( term ) {
+  return split( term ).pop();
+}
+
+function split( val ) {
+  return val.split( /,\s*/ );
+}    
+
+    $.getJSON("/printo-app/get_tags/", function (dictionary) {
+        var keys = [];
+
+
+
+        for (var key in dictionary) {
+          if (dictionary.hasOwnProperty(key)) {
+            keys.push(key);
+          }
+        }
+
+        $( "#id_tags_proxy" )
+        .bind( "keydown", function( event ) {
+          if ( event.keyCode === $.ui.keyCode.TAB &&
+              $( this ).autocomplete( "instance" ).menu.active ) {
+            event.preventDefault();
+          }
+        })
+        .autocomplete({
+           source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            keys, extractLast( request.term ) ) );
+          },
+          focus: function() {
+            // prevent value inserted on focus
+            return false;
+          },
+          select: function( event, ui ) {
+              var terms = split( this.value );
+
+              // // remove the current input
+              terms.pop();
+              // // add the selected item
+              terms.push( ui.item.value );
+              // alert(terms)
+              // // add placeholder to get the comma-and-space at the end
+              terms.push( "" );
+              this.value = terms.join( ", " );
+              // alert(ui.item.id)
+
+              $("#docForm").append('<input id="'+ ui.item.value +'" type="text" value="'+ dictionary[ui.item.value][1] +'" name="tags"  hidden/>')
+
+              // $('#'+ui.item.value).attr('value', dictionary[ui.item.value][1])
+              // .val('2 2');
+              return false;
+          }
+        }); 
+    });
+
+    $.getJSON("/printo-app/get_topics/", function (dictionary) {
+        var keys = [];
+
+        for (var key in dictionary) {
+          if (dictionary.hasOwnProperty(key)) {
+            keys.push(key);
+          }
+        }
+
+        $( "#id_topics_proxy" )
+        .bind( "keydown", function( event ) {
+          if ( event.keyCode === $.ui.keyCode.TAB &&
+              $( this ).autocomplete( "instance" ).menu.active ) {
+            event.preventDefault();
+          }
+        })
+        .autocomplete({
+           source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            keys, extractLast( request.term ) ) );
+          },
+          focus: function() {
+            // prevent value inserted on focus
+            return false;
+          },
+          select: function( event, ui ) {
+              var terms = split( this.value );
+
+              // // remove the current input
+              terms.pop();
+              // // add the selected item
+              terms.push( ui.item.value );
+              // alert(terms)
+              // // add placeholder to get the comma-and-space at the end
+              terms.push( "" );
+              this.value = terms.join( ", " );
+              // alert(ui.item.id)
+
+              $("#docForm").append('<input id="'+ ui.item.value +'" type="text" value="'+ dictionary[ui.item.value][1] +'" name="topic"  hidden/>')
+
+              // $('#'+ui.item.value).attr('value', dictionary[ui.item.value][1])
+              // .val('2 2');
+              return false;
+          }
+        }); 
+    });
+
+  	$.getJSON("/printo-app/get_courses/", function (dictionary) {
+        var keys = [];
+
+        for (var key in dictionary) {
+          if (dictionary.hasOwnProperty(key)) {
+            keys.push(key);
+          }
+        }
+
+        $( "#id_courses_proxy" )
+        .bind( "keydown", function( event ) {
+          if ( event.keyCode === $.ui.keyCode.TAB &&
+              $( this ).autocomplete( "instance" ).menu.active ) {
+            event.preventDefault();
+          }
+        })
+        .autocomplete({
+           source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            keys, extractLast( request.term ) ) );
+          },
+          focus: function() {
+            // prevent value inserted on focus
+            return false;
+          },
+          select: function( event, ui ) {
+              var terms = split( this.value );
+
+              // // remove the current input
+              terms.pop();
+              // // add the selected item
+              terms.push( ui.item.value );
+              // alert(terms)
+              // // add placeholder to get the comma-and-space at the end
+              terms.push( "" );
+              this.value = terms.join( ", " );
+              // alert(ui.item.id)
+
+              $("#docForm").append('<input id="'+ ui.item.value +'" type="text" value="'+ dictionary[ui.item.value][1] +'" name="course"  hidden/>')
+
+              // $('#'+ui.item.value).attr('value', dictionary[ui.item.value][1])
+              // .val('2 2');
+              return false;
+          }
+        }); 
+    }); 	
+
+	$.getJSON("/printo-app/get_universitys/", function (dictionary) {
+        var keys = [];
+
+        for (var key in dictionary) {
+          if (dictionary.hasOwnProperty(key)) {
+            keys.push(key);
+          }
+        }
+
+        $( "#id_universitys_proxy" )
+        .bind( "keydown", function( event ) {
+          if ( event.keyCode === $.ui.keyCode.TAB &&
+              $( this ).autocomplete( "instance" ).menu.active ) {
+            event.preventDefault();
+          }
+        })
+        .autocomplete({
+           source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            keys, extractLast( request.term ) ) );
+          },
+          focus: function() {
+            // prevent value inserted on focus
+            return false;
+          },
+          select: function( event, ui ) {
+              var terms = split( this.value );
+
+              // // remove the current input
+              terms.pop();
+              // // add the selected item
+              terms.push( ui.item.value );
+              // alert(terms)
+              // // add placeholder to get the comma-and-space at the end
+              terms.push( "" );
+              this.value = terms.join( ", " );
+              // alert(ui.item.id)
+
+              $("#docForm").append('<input id="'+ ui.item.value +'" type="text" value="'+ dictionary[ui.item.value][1] +'" name="university"  hidden/>')
+
+              // $('#'+ui.item.value).attr('value', dictionary[ui.item.value][1])
+              // .val('2 2');
+              return false;
+          }
+        }); 
+    }); 
+
+    $.getJSON("/printo-app/get_publishers/", function (dictionary) {
+        var keys = [];
+
+        for (var key in dictionary) {
+          if (dictionary.hasOwnProperty(key)) {
+            keys.push(key);
+          }
+        }
+
+        $( "#id_publishers_proxy" )
+        .bind( "keydown", function( event ) {
+          if ( event.keyCode === $.ui.keyCode.TAB &&
+              $( this ).autocomplete( "instance" ).menu.active ) {
+            event.preventDefault();
+          }
+        })
+        .autocomplete({
+           source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            keys, extractLast( request.term ) ) );
+          },
+          focus: function() {
+            // prevent value inserted on focus
+            return false;
+          },
+          select: function( event, ui ) {
+              var terms = split( this.value );
+
+              // // remove the current input
+              terms.pop();
+              // // add the selected item
+              terms.push( ui.item.value );
+              // alert(terms)
+              // // add placeholder to get the comma-and-space at the end
+              terms.push( "" );
+              this.value = terms.join( ", " );
+              // alert(ui.item.id)
+
+              $("#docForm").append('<input id="'+ ui.item.value +'" type="text" value="'+ dictionary[ui.item.value][1] +'" name="publisher"  hidden/>')
+
+              // $('#'+ui.item.value).attr('value', dictionary[ui.item.value][1])
+              // .val('2 2');
+              return false;
+          }
+        }); 
+    }); 	
+
+  });
+  
+
+  </script>
+{% endblock %}
