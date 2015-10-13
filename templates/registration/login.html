@@ -54,7 +54,28 @@
 		font-size: 20px;
 	}
 
+ .inline-label{
+ 	padding: 2px 5px;
+  	margin-left: 18px;
+  	display: inline-block;
+  	background: white;
+  	color:grey;
+  	font-size: 12px;
 
+  }
+
+  .input-holder{
+
+  }
+  .custom-input{
+  	margin-top: -10px;
+  }
+  .inline-label{
+  	visibility: hidden;
+  }
+  .border{
+  	border: 1px solid grey;
+  }
 </style>
 
 {% endblock %}
@@ -93,15 +114,24 @@
 								{% endfor %}
 						  
 							</dl> -->
+							<div class="input-holder ">
 
-							    <input class="form-control" id="id_username" maxlength="254" name="username" type="text" placeholder="username">
-								<br>
-							    <input class="form-control" id="id_password" name="password" type="password" placeholder="password">
+								<div class="inline-label">username</div>
 
+							    <input class="form-control custom-input" id="id_username" maxlength="254" name="username" type="text" placeholder="username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'username'">
+							</div>
+
+							<div class="input-holder ">
+								<div class="inline-label ">password</div>
+							    <input class="form-control custom-input" id="id_password" name="password" type="password" placeholder="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'password'">
+							</div>
 								<div class="loginSignUp clearFix">
 						
 								<br>
-								<input class="btn btn-block signin-btn" type="submit" value="Sign In" /> 
+								<input class="btn btn-block signin-btn" type="submit" value="Sign In" />
+
+
+
 					</form>
 				</div>
 
@@ -114,3 +144,20 @@
 	
    	
 {% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+	
+	$( ".custom-input" ).focus(function() {
+	   $(this).siblings().css('visibility','visible')
+	 
+	});
+	$( ".custom-input" ).focusout(function() {
+		if($(this).val().length <1 )
+			$(this).siblings().css('visibility','hidden')
+	});
+
+
+</script>
+
+{%  endblock %}

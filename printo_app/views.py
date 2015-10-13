@@ -96,7 +96,10 @@ def docUpload(request):
         new_doc.is_public = True
         new_doc.save()
         data.save_m2m() 
-        return HttpResponseRedirect(reverse('documentList'))
+        if(user.userType == 1 ):
+            return HttpResponseRedirect(reverse('documentListOwner'))
+        elif(user.userType == 2):
+            return HttpResponseRedirect(reverse('documentListEmp'))
     else:
         form = DocUploadForm()
         context = { "docUploadForm" : form }
