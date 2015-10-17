@@ -1,6 +1,6 @@
 {% extends "base.html" %}	
 
-{% block css%}
+{% block css %}
 <style>
 		#view_links a:hover {
 			border-left: 6px solid lightgrey;
@@ -9,9 +9,9 @@
 		}
 
 		#view_links .active {
-			border-left: 6px solid orange;
-		    background: white;
-		    color: grey;
+			border-left: 6px solid orange !important;
+		    background: white !important;
+		    color: grey !important;
 		}
 
 
@@ -31,7 +31,8 @@
 
     {% url 'documentUploadEmp' as documentUploadEmp %}
     {% url 'documentListEmp' as documentListEmp %}
-    {% url 'ordersList' as ordersList %}
+    {% url 'orderList' as ordersList %}
+    {% url 'shopProfile' as shopProfile %}
 
 
 	
@@ -43,28 +44,30 @@
 	        
   		{% block emp-content-leftbar %}
 
-  		<div class="fixed border">
-    		<div id="left_sidebar" >
-    			<div class="left_top_btns">
-				</div>
-				<div id="view_links">
-					<div class="tags">
-						<div class="header">PAGES</div>
-						<a href="{{ documentListEmp }}" {% if request.path == documentListEmp %} class='active' {% endif %}> My Documents </a>
-						<a href="{{ ordersList }}" {% if request.path == ordersList %} class='active' {% endif %}> My Orders </a>
-						<a href=""> Shop Profile </a>
+	  		<div class="fixed border">
+	    		<div id="left_sidebar" >
+	    			<div class="left_top_btns">
 					</div>
-					<div class="tags">
-						<div class="header">Actions</div>
-						<a href="{{ documentUploadEmp }}" {% if request.path == documentUploadEmp %} class='active' {% endif %}> Upload a document </a>
+					<div id="view_links">
+						<div class="tags">
+							<div class="header">PAGES</div>
+							<a href="{{ documentListEmp }}" {% if request.path == documentListEmp %} class='active' {% endif %}> My Documents </a>
+							<a href="{{ ordersList }}" {% if request.path == ordersList %} class='active' {% endif %}> My Orders </a>
+
+							<a href="{{ shopProfile }}"  {% if request.path == shopProfile %} class='active' {% endif %}> Shop Profile </a>
+							
+						</div>
+						<div class="tags">
+							<div class="header">Actions</div>
+							<a href="{{ documentUploadEmp }}" {% if request.path == documentUploadEmp %} class='active' {% endif %}> Upload a document </a>
+						</div>
+
 					</div>
-
 				</div>
-			</div>
-	    </div>
+		    </div>
 
 
-	      		{% endblock %}
+  		{% endblock %}
 
 	        	{% block emp-content %}
 		
@@ -72,28 +75,15 @@
 		</div>
 	</div>
 
-<!-- 	
 
-	{% if user_role == "employee" %}
-		<a href="{% url 'documentList' %}">Documents</a>
-		<a href="{% url 'documentUpload' %}">Upload a Document</a>
-		<a href="{% url 'shopProfile' %}">Shop Profile</a>
-	{% endif %}
-	{% if  user_role == "owner" %}
-		<a href="{% url 'documentList' %}">DashBoard</a>
-		<a href="{% url 'documentList' %}">Documents</a>
-		<a href="{% url 'documentUpload' %}">Upload a Document</a>
-		<a href="{% url 'shopProfile' %}">Shop Profile</a>
-	{% endif %}
- -->
 	<div id="content">
 		
 	</div>
 
 {% endblock %}
 
-{% block javascript %}
-{% endblock %}
+		{% block javascript %}
+		{% endblock %}
 
 	</body>
 	</html>

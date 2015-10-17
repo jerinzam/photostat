@@ -558,6 +558,10 @@
 	<script src="{% static 'js/printo_app/nouislider.min.js' %}"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script type="text/javascript">
+		var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
 
 
 		// 
@@ -603,10 +607,11 @@
 			 			name:'{{item.name}}',
 			 			uploadedDate:'{{item.uploadedDate|date:"SHORT_DATE_FORMAT"}}',
 			 			price:'{{item.price}}',
-			 			tags : tags_store
-			 			
+			 			tags : tags_store,
+			 			doc_url :'{{item.display_doc}}',
+			 			pages:'{{item.pages}}', 
 			 		}	
-
+			console.log('{{item.display_doc}}')
 			 i = i + 1
 		{% endfor %}
 
@@ -620,7 +625,9 @@
 								id:value["id"],
 								uploadedDate:value['uploadedDate'],
 								price:value['price'],
-								tags:value['tags']
+								tags:value['tags'],
+								doc_url:value['doc_url'],
+								pages:value['pages']
 							}
 			i=i+1
 		})
@@ -725,23 +732,27 @@
 			new_display(id)
 		})
 
+		var date = new Date()
+
 		// start -> creating the html for PANEL
 		$.each(displayDocs,function(index,value){
-
+			console.log(value["uploadedDate"],"-")
 			text = text + ('<div class="panel panel-default" id="file'+ value["id"] +'"  > <div class="panel-heading" role="tab" id="heading'+ value["id"] +'">')
 			text = text + '<div class="main-block border">'
-			text = text + '<div class="date border">Oct<div class="number">6</div></div>'
+			text = text + '<div class="date border">'+monthNames[new Date(value["uploadedDate"]).getMonth()].substring(0,3)+'<div class="number">'+new Date(value["uploadedDate"]).getDate()+'</div></div>'
 			// text = text + '<h4 class="panel-title">'
 			text = text + '<div class="header border" data-toggle="collapse" data-parent="#accordion" data-target="#collapse-'+ value["id"] +'" aria-expanded="false" ><span class="description border">'+ value["name"] +'<br><span class="filesize">27.5 MB</span></span></div>'
 			// text = text + '<br>'
 			// text = text + '<a role="button" id="file'+ value["id"] +'" data-toggle="collapse" data-parent="#accordion" href="#collapse-'+ value["id"] +'" aria-expanded="false" aria-controls="collapse-'+ value["id"] +'">'+ value["name"] +'</a>'
 			// text = text + '</h4>'
+
+			// /static/js/printo_app/pdfjs-1.1.215-dist/web/viewer.html?file=/static/compressed.tracemonkey-pldi-09.pdf
 			text = text + '</div>' // end - main-block
 
 			text = text + '<div class="type">Type <br><span class="number">Notes</span></div>'
-			text = text + '<div class="pages">Pages <br><span class="number">Rs 25</span></div>'
-			text = text + '<div class="cost border">Cost <br><span class="negative">Rs 25</span></div>'
-			text = text + '<div class="action border"><br><a href="/static/js/printo_app/pdfjs-1.1.215-dist/web/viewer.html?file=/static/compressed.tracemonkey-pldi-09.pdf" class=" badge print-badge print"><span class="glyphicon glyphicon-eye-open"></span></a></div>'
+			text = text + '<div class="pages">Pages <br><span class="number">'+ value["pages"] +'</span></div>'
+			text = text + '<div class="cost border">Cost <br><span class="negative">'+ value["price"] +'</span></div>'
+			text = text + '<div class="action border"><br><a href="/static/js/printo_app/pdfjs-1.1.215-dist/web/viewer.html?file=/static/'+value["doc_url"].split("/")[1]+'" class=" badge print-badge print pdf_view"><span class="glyphicon glyphicon-eye-open "></span></a></div>'
 			text = text + '<div class="action border"><br><a href="#" class=" badge print-badge print"><span class="glyphicon glyphicon-print"></span></a></div>'
 			text = text + '<div class="action border"><br><a href="#" class="delete">x</a></div>'		
 			text = text + '</div>'
@@ -777,6 +788,17 @@
 		$('.class_doc_list').html(text)
 
 		$(function() {
+
+
+		// ============= start - pdf viewer =============================
+
+			$('.pdf_view').click(function(e){
+			
+				console.log('yuppppppppp')
+			})
+
+
+		// ============= stop - pdf viewer ============================
 				
 			$( ".datepicker" ).datepicker();
 

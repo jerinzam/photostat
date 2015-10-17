@@ -1,24 +1,867 @@
 
 {% extends "empMain.html" %}
+{% block sub_css %}
 
-{% block content %}
-	
-	<h3>Shop Profile</h3>
-
-{% extends "index.html" %}
-
-{% block content %}
-
-
-	<form action='{% url "shopEditSave" %}' method="POST">
-		{% csrf_token %}
-		<p> {{ shopForm.owner.label}} : <input value="{{shopForm.instance.owner}}" disabled/> </p>
-		<p> {{ shopForm.employee.label}} : <input value="{{shopForm.instance.employee}}" disabled/> </p>
-		<p> {{ shopForm.shopName.label}} : <input value="{{shopForm.shopName.value}}" disabled/> </p>
-		{{ shopForm.as_p }}
+<style type="text/css">
+	.navbar{
+		box-shadow: 0 0 3px rgba(0,0,0,0.8)
 		
-		<input type="submit" value="Save Changes"/>
-	</form>
+	}
+	.fixed {
+        
+        position: fixed;
+        width: 200px;
+        top:70px;
+        margin-left:3.3%;
+        /*text-align: right;*/
+	}
+	.scrollit {
 
+		position: relative;
+		width:600px;
+		left: 258px;
+		padding-top: 45px;
+	                
+	}
+
+	.fixed1{
+		width: 250px;
+		position: fixed;
+		top:50px;
+		right: 140px;
+
+	}
+	.he{
+		background: #eee;
+		padding: 20px;
+		padding-bottom: 0px;
+		top:10px;
+		width:44.35%;
+		position: fixed;
+		left: 363.5px;
+		z-index: 100;
+		box-shadow: 0 0 12px rgba(0,0,0,0.2);
+		border-bottom: 1px solid #ddd;
+		border-radius: 0px !important;
+	}
+	body { padding-top: 70px; }
+
+	.border{
+
+		/*border:1px solid black;*/
+	}
+
+	/*===========================================*/
+
+		.border{
+			/*border: 1px solid black;*/
+		}
+		.filter{
+			margin-top: 20px;
+			padding: 1px !important;
+			/*width: 26.5% !important;*/
+
+			/*border:1px solid black;*/
+		}
+
+		.date_tabs li a{
+			/*color: red;*/
+			padding-left: 10px !important;
+			padding-right: 11.5px !important;
+		}	
+
+		#tags{
+		 /* float:left;
+		  border:1px solid #ccc;
+		  padding:5px;
+		  font-family:Arial;*/
+		}
+		#tags span.tag{
+		  cursor:pointer;
+		  display:block;
+		  float:left;
+		  color:#fff;
+		  background:#689;
+		  padding:5px;
+		  padding-right:25px;
+		  margin:4px;
+		}
+		#tags span.tag:hover{
+		  opacity:0.7;
+		}
+		#tags span.tag:after{
+		 position:absolute;
+		 content:"x";
+		 border:1px solid;
+		 padding:0 4px;
+		 margin:3px 0 10px 5px;
+		 font-size:10px;
+		}
+		#tags input{
+		  /*background:#eee;
+		  border:0;*/
+		  /*margin:4px;*/
+		  /*padding:7px;*/
+		  /*width:auto;*/
+		}
+
+		.panel-title a {
+		    display: block;
+		    padding: 10px 15px;
+		    margin: -10px -15px;
+		}
+
+		.doc_details_sub{
+		    background: #f8f8f8;
+		    padding: 15px;
+		    box-shadow: inset 0 5px 7px -5px rgba(0,0,0,0.25),inset 0 -3px 7px -5px rgba(0,0,0,0.25);
+		    /*padding-top: 0px !important;*/
+		}
+		h3{
+		    font-size: 20px !important;
+		    font-weight: bolder !important;
+		}
+
+		.tags_content, .topics_content{
+			padding: 5px;
+			width: 98%;
+			font-size: 12px;
+			margin-top:-5px;
+		}
+
+		td{
+			padding-bottom: 15px !important;
+		}
+
+		.date {
+		    float: left;
+		    margin: -1px 10px 0 -65px;
+		    height: 35px;
+		    width: 35px;
+		    text-align: center;
+		    font-size: 10px;
+		    text-transform: uppercase;
+		    color: #999;
+		    font-weight: normal;
+		}
+		div.main-block {
+		    /*cursor: pointer;*/
+		    display: inline-block;
+		    box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    -webkit-box-sizing: border-box;
+		    -ms-box-sizing: border-box;
+		    width: 220px;
+		    padding: 9px 2px 6px 68px;
+		    /*position: relative;*/
+		}
+		div.number {
+		    margin-top: -3px;
+
+		    font-size: 20px;
+		}
+
+		div.main-block>.header {
+		    font-size: 16px;
+		    font-weight: bold;
+		    overflow-x: hidden;
+		    overflow-y: hidden;
+		    height: 40px;
+		    margin-top: 0;
+		    margin-left: -20px;
+		}
+		div.main-block>.header .description {
+			height: 35px;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		    margin-left: 0px;
+		    margin-top: 2px;
+		    max-width: 200px;
+		    min-width: 150px;
+		    display: inline-block;
+		    padding-bottom: 2px;
+		}
+
+		div.cost, div.action {
+		    position: relative;
+		    cursor: pointer;
+		    display: inline-block;
+		    white-space: nowrap;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    vertical-align: top;
+		    padding: 11px 4px 12px;
+		    font-size: 12px;
+		    width: 69px;
+		    color: #aaa;
+		    line-height: 15px;
+		}
+		div.action{
+			margin-top: -5px;
+			vertical-align: top;
+			margin-left: 8px;
+			width: 35px;
+		}
+
+		div.cost .negative {
+		    color: #ff652f;
+		    font-weight: bold;
+		    font-size: 16px;
+		}
+
+		div.pages, div.type {
+		    text-align: right;
+		    width: 100px;
+		    padding: 11px 10px 12px 5px;
+		    font-size: 12px;
+		    line-height: 15px;
+		    white-space: nowrap;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    display: inline-block;
+		    vertical-align: top;
+		    color: #aaa;
+		    cursor: pointer;
+		}
+		div.type{
+			width: 60px;
+		}
+		div.pages .number {
+		    color: #000;
+		    font-weight: bold;
+		    font-size: 16px;
+		}
+		.filesize {
+			 color: darkgrey;
+		    font-weight: normal !important;
+		    font-size: 10px !important;
+		}
+		div.type .number  {
+			 color: darkgrey;
+		    font-weight: bold;
+		    font-size: 16px;
+		}
+
+
+
+		div.panel-heading{
+			padding: 0px;
+			background: white !important;
+			
+		}
+
+		 a.delete {
+		    color: grey;
+		    /*background: rgba(249,249,249,0.8);*/
+
+		    /*font-weight: bold;*/
+		    font-size: 20px;
+		    position: ;
+		    /*top: 1px;*/
+		    right: 0px;
+		    /*padding: 5px;*/
+		}
+		a.print {
+		    color: grey;
+		    
+		    /*background: rgba(249,249,249,0.8);*/
+		    /*font-weight: bold;*/
+		    font-size: 15px;
+		    position: ;
+		    margin-top: -6px;
+		    /*right: 10px;*/
+		    padding: 8px;
+		    /*margin-right: 10px; */
+		}
+
+		.print-badge{
+			background-color: grey !important;
+		}
+
+		.filter_choices {
+			background: #5BC5A7;
+			margin-top: .5%;
+			width:100%;
+			margin-bottom: 0px;
+			/*border-top: 1px solid lightgrey;*/
+			/*border-bottom: 1px solid lightgrey;*/
+			padding:3px 0px !important;
+			padding-left: 8px !important;
+		}
+		.filter_choices .btn{
+			margin: 4px 2.46px !important;
+			/*margin-left: 1px !important;*/
+			border: none;
+			/*border: 1px solid grey !important;*/
+			color: #39A385 !important;
+			background: white !important;
+			border-radius: 10px !important;
+			font-size: 12px !important;
+			padding: 5px !important;
+		}
+
+		.filter_choices .active{
+			/*border: 1px solid grey !important;*/
+			color: white !important;
+			background:#FF652F !important;
+		}
+
+		.filter .mainbtn{
+			background: #9ED7C7;
+			color: #8EC2B3;
+			
+			border: 1px solid lightgrey;
+			margin: 0px !important;
+			border-radius: 0px !important;
+			
+			width: 50%;
+
+		}
+
+		.filter .mainbtn .active{
+			background: #5BC5A7;
+			color:white;
+		}
+		.mainbtn_container{
+
+			padding: 0px;
+			width: 100%
+		}
+		.newsbtn{
+			/*border-left: px solid white !important;*/
+		}
+		.searchbtn{
+			border-right: 1px solid white !important;
+		}
+
+		.class_search_body{
+			padding: 20px 2px !important;
+			margin-top: -18.8px;
+			background: #5BC5A7;
+		}
+
+		.doc_details_sub td h3{
+
+			padding-top:7px;
+			margin-top: 0px;
+
+		}
+		.class_accordian_table {
+		 border-collapse: collapse;
+		}
+		.class_accordian_table tr  { 
+		  border-bottom: 1px solid lightgrey;
+		}
+		.class_accordian_table tr:first-child {
+		  border-top: none;
+		}
+		.class_accordian_table tr:last-child {
+		  border-bottom: none;
+		}
+
+		.right_top_btns, .left_top_btns{
+			height: 50px;
+		}
+
+
+		 #view_links a {
+		    color: inherit;
+		    display: block;
+		    height: 30px;
+		    font-size: 14px;
+		    /*overflow: hidden;*/
+		    /*white-space: nowrap;*/
+		    /*text-overflow: ellipsis;*/
+		    padding: 3px 8px 2px 8px !important;
+		    text-decoration: none;
+		    border-left: 6px solid #fff;
+		}
+
+		#view_links {
+		    text-align: left;
+		    width: 200px;
+		    margin-left: 2px;
+		    /*overflow: hidden;*/
+		    /*white-space: nowrap;*/
+		    /*text-overflow: ellipsis;*/
+		}
+
+		#left_sidebar .header {
+			width: 100%;
+		    position: relative;
+		    /*margin-left: 5px;*/
+		    background: #5BC5A7;
+		    color: white;
+		    font-size: 11px;
+		    margin-top: 5px;
+		    border-top: 1px solid #f3f3f3;
+		    border-bottom: 1px solid #eee;
+		    text-transform: uppercase;
+		    padding: 5 5px;
+		}
+
+		#view_links a:hover {
+			border-left: 6px solid lightgrey;
+		    background: #eee;
+		    color: #666;
+		}
+
+		#center_column{
+			padding: 0px;
+			
+		}
+		#center_column{
+			box-shadow: 0 0 12px rgba(0,0,0,0.2);
+		}
+		.panel{
+			padding-top: 0px !important;
+			margin-top: 0px !important;
+			border-radius: 0px !important;
+		}
+
+	.doc_type_choice{
+		background: none !important;
+		color:green !important;
+		padding: 2px !important;
+		border: 1px solid green	 !important;
+	}
+	.doc_type_choices .active{
+		background: #FF652F !important;
+		color:white !important;
+		padding: 2px !important;
+		border: 1px solid #FF652F !important;
+	}
+
+	 .inline-label{
+	 	padding: 2px 5px;
+	  	margin-left: 18px;
+	  	display: inline-block;
+	  	background: white;
+	  	color:grey;
+	  	font-size: 12px;
+
+	  }
+
+	  .input-holder{
+	  	margin-top:10px;	 
+	  }
+	  .custom-input{
+	  	padding-left: 4px !important;
+	  	padding-right: 4px !important;
+	  	margin-top: -8px ;
+	  }
+	  .inline-label{
+	  	visibility: hidden;
+	  }
+	  .file_holder{
+
+	  }
+	  #beforeDrop h4{
+	  	color: grey;
+	  	font-size: 17px;
+	  	/*padding: 5px;*/
+	  	margin-top: 0px ;
+	  	margin-bottom: 10px;
+	  	padding-left: 5px;
+
+	  }
+	  #afterDrop h4{
+	  	color: grey;
+	  	font-size: 17px;
+	  	/*padding: 5px;*/
+	  	margin-top: 2px ;
+	  	margin-bottom:2px;
+	  	padding:15px 15px 5px 15px;
+	  	text-align: center;
+
+	  }
+	  #beforeDrop{
+	  	text-align: center;
+	  	padding: 10px 7px 10px 7px !important;
+	  	/*padding-bottom: 10px !important;*/
+	  	background:lightgrey !important;
+	  }
+	  #afterDrop,#uploading{
+	  	/*padding: 10px 10px 10px 7px !important;*/
+	  	/*padding-bottom: 10px !important;*/
+	  	text-align: center;
+	  	background:lightgrey !important;
+
+	  }
+
+	  #uploading{
+	  	
+	  	height:35%;
+	  }
+	  .btn-file {
+	  	background: darkgrey!important;
+	  	border: none;
+	  	width:93%;
+	  	margin: 5px 7px;
+	  	color:white !important;
+	    position: relative;
+	    overflow: hidden;
+	}
+	.btn-change-file{
+		margin:0px;
+		background: none !important;
+		padding: 0px !important;
+	}
+	.btn-file input[type=file]{
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    min-width: 100%;
+	    min-height: 100%;
+	    font-size: 100px;
+	 	text-align: right;
+	    filter: alpha(opacity=0);
+	    opacity: 0;
+	    outline: none;
+	    /*background: white;*/
+	    cursor: inherit;
+	    display: block;
+	}
+	.btn-change-file input[type=file] {
+
+		position: absolute;
+		width: 100%;
+		/*padding-top:2px;*/
+		/*padding-bottom: 2px; */
+		/*height: 102%;*/
+		margin-left: -9px;
+		margin-top: -20px;
+		background: 1px solid orange;
+
+	    cursor: hand;
+	    display: block;
+	}
+
+	.small-font-13{
+		font-size: 12px !important;
+	}
+
+	  .uploaded_symbol{
+
+	  	padding: 30px 0px;
+	  	font-size: 50px ;
+	  	color: #39A385 ;
+	  }
+
+	  .file-options .btn{
+
+	  	padding:3px 8px !important;
+	  	background: none;
+	  	border: 1px solid grey; 
+	  	color: grey;
+	  }
+	  #afterDrop .btn-group{
+	  	padding:5px 4px;
+	  	margin-top: 5px;
+	  	margin-bottom: 5px;
+	  }
+
+	#the-canvas{
+		width: 100%;
+		height:100%;
+		padding: 15px;
+	}
+
+	.pdf_image_holder{
+		padding: 0px 40px;
+	}
+
+	.pdf-holder{
+		width: 60%;
+		height: 95%;
+	}
+	.modal-content{
+		margin-top:-20px;
+		padding-top: 0px;
+	}
+
+	.pdf-info{
+		margin-top:40px; 
+		padding: 15px;
+	}
+
+	.modal-footer{
+		/*position: absolute;*/
+		margin-top: -60px !important;
+		margin-right: 35px;
+		/*padding:10px 20px;*/
+	}
+
+	.file-submit-btn{
+		position: relative;
+		background: #9ED7C7 !important;
+		color: #8EC2B3;
+		opacity: 1 !important;
+		/*z-index:3;*/
+		border:1px solid #9ED7C7 !important;
+		margin-top: 50px;
+		margin-left: 255px;
+		border-radius: 50px !important;
+		padding: 10px 15px !important;
+		height:66px;
+	}
+
+	#shopForm{
+		/*z-index:2; */
+		padding: 15px;
+		padding-bottom: 0px;
+		/*border: 1px solid lightgrey;*/
+		border-top: none;
+		margin-bottom: -30px;
+	}
+	/*========================*/
+
+	.spinner {
+	    width: 40px;
+	    height: 40px;
+	    position: relative;
+	    margin: 0px auto;
+	    /*display:block;*/
+	}
+
+	.double-bounce1, .double-bounce2 {
+	    width: 100%;
+	    height: 100%;
+	    border-radius: 50%;
+	    opacity: 0.6;
+	    position: absolute;
+	    top: 72px;
+	    /*left: 30px;*/
+	    -webkit-animation: bounceIn 2.0s infinite ease-in-out;
+	    animation: bounceIn 2.0s infinite ease-in-out;
+
+	}
+	#innerLoading{
+		/*margin-top: 50px;*/
+	}
+
+	.blueBack {
+	    background-color: #39A385;
+	}
+	.double-bounce2 {
+	    -webkit-animation-delay: -1.0s;
+	    animation-delay: -1.0s;
+	}
+
+	@keyframes bounceIn {
+	  0% {
+	    transform: scale(0.1);
+	    opacity: 1;
+	  }
+	  50% {
+	    transform: scale(1.2);
+	    opacity: .3;
+	  }
+	  100% {
+	    transform: scale(.1);
+	    opacity: 1;
+	  }
+	}
+
+	.upload-btn-activated{
+		background: #39A385 !important;
+		color: white;
+		border: 1px solid #39A385 !important;
+	}
+</style>
+{% endblock %}
+
+	
+{% block emp-content %}
+	<h2 class="he border page-header">Shop Profile</h2><br>
+
+	<div class="scrollit border">
+		<div id="center_column" class="col-md-12 border">
+			<form id="shopForm" action="/printo-app/shop-profile-save" method="POST">
+				{% csrf_token %} 
+				<div class="row">
+					<div class="col-md-6">
+						<div class="input-holder ">
+				        	 <div class="inline-label">Owner</div>
+							<input value="{{details.owner}}" class="form-control custom-input" disabled="" placeholder="owner"> 
+						</div>
+						<div class="input-holder ">
+				        	 <div class="inline-label">Username</div>
+							<input value="{{details.employee}}" class="form-control custom-input" disabled="" placeholder="Username"> 
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="input-holder ">
+					        	 	<div class="inline-label">Shop Name</div> 
+									<input value="{{details.shopName}}" class="form-control custom-input" disabled="" placeholder="shop name"> 
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="input-holder ">
+						        	 <div class="inline-label">Rate</div>
+									<input id="id_rate" class="form-control custom-input" placeholder="rate" name="rate" step="0.01" type="number" value="{{details.rate}}" disabled>
+								</div>
+							</div>
+
+						</div>
+											
+						<div class="row">
+							<div class="col-md-6">
+								<div class="input-holder ">
+						        	<div class="inline-label">Telephone</div>
+						        	<input id="id_telephone" class="form-control custom-input" maxlength="14" placeholder="telephone" name="telephone" type="text" value="{{details.telephone}}">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="input-holder">
+				        	 		<div class="inline-label">Pincode</div>
+									<input id="id_pincode" value="{{details.pincode}}" class="form-control custom-input" placeholder="pincode" name="pincode" type="text">
+								</div>
+							</div>
+
+						</div>
+						<div class="input-holder">
+					        		<div class="inline-label">Email</div>
+									<input id="id_email" value="{{details.email}} "class="form-control custom-input" placeholder="email" maxlength="254" name="email" type="text">
+						</div>
+						<div class="input-holder">
+	                          <div class="inline-label">Services</div>
+	                          <input class="form-control custom-input" id="id_services_proxy" name="services_proxy" maxlength="200" type="text" placeholder="services" />
+                        </div>
+					</div>
+					<div class="col-md-6">
+							
+						<div class="input-holder ">
+				        	 <div class="inline-label">Address</div>
+							<textarea cols="30" value="{{details.address}}" class="form-control custom-input" id="id_address"  placeholder="shop address"name="address" rows="5"></textarea>
+						</div>
+
+					</div>
+				</div>
+
+				
+				
+				
+				<input class="btn  file-submit-btn" type="submit" value="Save" disabled/>
+			</form>
+		</div>
+
+	</div>
+
+	<div class="fixed1 border">
+	</div>
+
+
+{% endblock %}
+
+{% block javascript %}
+
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+ 
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script type="text/javascript">
+
+
+  	
+	$(function(){
+// ====================== start -> append the services values into input field ==================
+		var shop_services = []
+			{% for service in details.services.all %}
+	 				shop_services.push('{{service.name}}')
+			{% endfor %}
+		$('#id_services_proxy').val(shop_services+",")
+
+// ====================== stop -> append the services values into input field ==================
+
+		
+// ======= start -> overlapping label for inputs / labels for already values present =======
+
+
+			$('#shopForm .custom-input').filter(function(index){
+	   		return ($(this).val().length>0)
+			}).siblings().css('visibility','visible')
+
+
+			$( ".custom-input" ).focus(function() {
+			   $(this).siblings().css('visibility','visible')
+			    $(this).data('placeholder',$(this).attr('placeholder'))
+	          .attr('placeholder','');
+			 
+			});
+			$( ".custom-input" ).focusout(function() {
+				$(this).attr('placeholder',$(this).data('placeholder'));
+				if($(this).val().length <1 ){
+						
+					$(this).siblings().css('visibility','hidden')
+				}
+			});
+
+// ======= stop -> overlapping label for inputs / labels for already values present =======
+
+		  
+// ==================== start -> getting the services =================
+
+		$.getJSON("/printo-app/get_services/", function (dictionary) {
+            var keys = [];
+
+            function extractLast( term ) {
+              return split( term ).pop();
+            }
+
+            function split( val ) {
+              return val.split( /,\s*/ );
+            }
+
+            for (var key in dictionary) {
+              if (dictionary.hasOwnProperty(key)) {
+                keys.push(key);
+              }
+            }
+
+            $( "#id_services_proxy" )
+            .bind( "keydown", function( event ) {
+              if ( event.keyCode === $.ui.keyCode.TAB &&
+                  $( this ).autocomplete( "instance" ).menu.active ) {
+                event.preventDefault();
+              }
+            })
+            .autocomplete({
+               source: function( request, response ) {
+              // delegate back to autocomplete, but extract the last term
+              response( $.ui.autocomplete.filter(
+                keys, extractLast( request.term ) ) );
+              },
+              focus: function() {
+                // prevent value inserted on focus
+                return false;
+              },
+              select: function( event, ui ) {
+                  var terms = split( this.value );
+
+                  // // remove the current input
+                  terms.pop();
+                  // // add the selected item
+                  terms.push( ui.item.value );
+                  // alert(terms)
+                  // // add placeholder to get the comma-and-space at the end
+                  terms.push( "" );
+                  this.value = terms.join( ", " );
+                  // alert(ui.item.id)
+
+                  $("#shopForm").append('<input id="'+ ui.item.value +'" type="text" name="services"  value="'+ dictionary[ui.item.value][1] +'"  hidden/>')
+
+                 
+                  return false;
+              }
+            }); 
+        });
+
+// ==================== stop -> getting the services =================
+
+
+
+	})
+  </script>
 
 {% endblock %}

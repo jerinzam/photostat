@@ -143,15 +143,15 @@
       $(function() {
 
         $('.map-modal').on('hidden.bs.modal', function () {
-          if($('#id_latitude').val()==''){
-            $('#college_input > input').val('')
-            ('#town_input > input').val('')
-          }        
-          else{
-            
-            $('#details_tag').show();
+            if($('#id_latitude').val()==''){
+              $('#college_input > input').val('')
+              ('#town_input > input').val('')
+            }        
+            else{
+              
+              $('#details_tag').show();
 
-          }
+            }
           });
 
         $('.collegebtn').on('click',function(){
@@ -160,7 +160,6 @@
           $('#college_input > input').val('')
           $('#town_input > input').val('')
           $('#details_tag').hide()
-
         })
 
         $('.townbtn').on('click',function(){
@@ -169,7 +168,6 @@
           $('#college_input > input').val('')
           $('#town_input > input').val('')
           $('#details_tag').hide()
-
         })
        
         $.getJSON("/printo-app/get_services/", function (dictionary) {
@@ -303,10 +301,10 @@
           });
            
           google.maps.event.addListener(marker, 'dragend', function (event) {
-// 
-  geocodePosition(marker.getPosition());
+          // 
+            geocodePosition(marker.getPosition());
 
-// 
+          // 
 
 
 
@@ -319,5 +317,7 @@
 
           })  ;
       }
+
+
   </script>
 {% endblock %}

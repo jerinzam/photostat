@@ -17,11 +17,10 @@ urlpatterns = [
 	url(r'^doc-upload$',views.docUpload,name="documentUploadEmp"),
 	url(r'^shop-profile$',views.shopProfile,name="shopProfile"),
 	url(r'^shop-profile-save$',views.shopEditSave,name="shopEditSave"),
-	url(r'^shop-profile/$',views.shopProfile,name="shopProfile"),
 	url(r'^shop-list/$',views.shopList,name="shopList"),
 	url(r'^shop-list/shop/(?P<shopid>\d+)/$',views.indexEmp,name="shopPage"),
 	url(r'^shop-create/$',views.shopCreate,name="shopCreate"),
-	url(r'^order-list/$',views.ordersList,name="ordersList"),
+	url(r'^order-list/$',views.orderList,name="orderList"),
 
 	# data providers
 	

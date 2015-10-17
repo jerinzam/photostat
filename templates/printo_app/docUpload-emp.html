@@ -423,229 +423,266 @@
 			border-radius: 0px !important;
 		}
 
-.doc_type_choice{
-	background: none !important;
-	color:green !important;
-	padding: 2px !important;
-	border: 1px solid green	 !important;
-}
-.doc_type_choices .active{
-	background: #FF652F !important;
-	color:white !important;
-	padding: 2px !important;
-	border: 1px solid #FF652F !important;
-}
+	.doc_type_choice{
+		background: none !important;
+		color:green !important;
+		padding: 2px !important;
+		border: 1px solid green	 !important;
+	}
+	.doc_type_choices .active{
+		background: #FF652F !important;
+		color:white !important;
+		padding: 2px !important;
+		border: 1px solid #FF652F !important;
+	}
 
- .inline-label{
- 	padding: 2px 5px;
-  	margin-left: 18px;
-  	display: inline-block;
-  	background: white;
-  	color:grey;
-  	font-size: 12px;
+	 .inline-label{
+	 	padding: 2px 5px;
+	  	margin-left: 18px;
+	  	display: inline-block;
+	  	background: white;
+	  	color:grey;
+	  	font-size: 12px;
 
-  }
+	  }
 
-  .input-holder{
-  	/*margin-top:10px;	 */
-  }
-  .custom-input{
-  	padding-left: 4px !important;
-  	padding-right: 4px !important;
-  	margin-top: -10px ;
-  }
-  .inline-label{
-  	visibility: hidden;
-  }
-  .file_holder{
+	  .input-holder{
+	  	/*margin-top:10px;	 */
+	  }
+	  .custom-input{
+	  	padding-left: 4px !important;
+	  	padding-right: 4px !important;
+	  	margin-top: -10px ;
+	  }
+	  .inline-label{
+	  	visibility: hidden;
+	  }
+	  .file_holder{
 
-  }
-  #beforeDrop h4{
-  	color: grey;
-  	font-size: 17px;
-  	/*padding: 5px;*/
-  	margin-top: 0px ;
-  	margin-bottom: 10px;
-  	padding-left: 5px;
+	  }
+	  #beforeDrop h4{
+	  	color: grey;
+	  	font-size: 17px;
+	  	/*padding: 5px;*/
+	  	margin-top: 0px ;
+	  	margin-bottom: 10px;
+	  	padding-left: 5px;
 
-  }
-  #afterDrop h4{
-  	color: grey;
-  	font-size: 17px;
-  	/*padding: 5px;*/
-  	margin-top: 2px ;
-  	margin-bottom:2px;
-  	padding:15px 15px 5px 15px;
-  	text-align: center;
+	  }
+	  #afterDrop h4{
+	  	color: grey;
+	  	font-size: 17px;
+	  	/*padding: 5px;*/
+	  	margin-top: 2px ;
+	  	margin-bottom:2px;
+	  	padding:15px 15px 5px 15px;
+	  	text-align: center;
 
-  }
-  #beforeDrop{
-  	text-align: center;
-  	padding: 10px 7px 10px 7px !important;
-  	/*padding-bottom: 10px !important;*/
-  	background:lightgrey !important;
-  }
-  #afterDrop,#uploading{
-  	/*padding: 10px 10px 10px 7px !important;*/
-  	/*padding-bottom: 10px !important;*/
-  	text-align: center;
-  	background:lightgrey !important;
+	  }
+	  #beforeDrop{
+	  	text-align: center;
+	  	padding: 10px 7px 10px 7px !important;
+	  	/*padding-bottom: 10px !important;*/
+	  	background:lightgrey !important;
+	  }
+	  #afterDrop,#uploading{
+	  	/*padding: 10px 10px 10px 7px !important;*/
+	  	/*padding-bottom: 10px !important;*/
+	  	text-align: center;
+	  	background:lightgrey !important;
 
-  }
+	  }
 
-  #uploading{
-  	
-  	height:35%;
-  }
-  .btn-file {
-  	background: darkgrey!important;
-  	border: none;
-  	width:93%;
-  	margin: 5px 7px;
-  	color:white !important;
-    position: relative;
-    overflow: hidden;
-}
-.btn-file input[type=file] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 100px;
-    text-align: right;
-    filter: alpha(opacity=0);
-    opacity: 0;
-    outline: none;
-    background: white;
-    cursor: inherit;
-    display: block;
-}
+	  #uploading{
+	  	
+	  	height:35%;
+	  }
+	  .btn-file {
+	  	background: darkgrey!important;
+	  	border: none;
+	  	width:93%;
+	  	margin: 5px 7px;
+	  	color:white !important;
+	    position: relative;
+	    overflow: hidden;
+	}
+	.btn-change-file{
+		margin:0px;
+		background: none !important;
+		padding: 0px !important;
+	}
+	.btn-file input[type=file]{
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    min-width: 100%;
+	    min-height: 100%;
+	    font-size: 100px;
+	 	text-align: right;
+	    filter: alpha(opacity=0);
+	    opacity: 0;
+	    outline: none;
+	    /*background: white;*/
+	    cursor: inherit;
+	    display: block;
+	}
+	.btn-change-file input[type=file] {
 
-.small-font-13{
-	font-size: 12px !important;
-}
+		position: absolute;
+		width: 100%;
+		/*padding-top:2px;*/
+		/*padding-bottom: 2px; */
+		/*height: 102%;*/
+		margin-left: -9px;
+		margin-top: -20px;
+		background: 1px solid orange;
+	    /*top: 0;*/
+	    /*right: 0;*/
 
-  .uploaded_symbol{
+	    
+	 	
+	 	  /*filter: alpha(opacity=0);*/
+	    /*opacity: 0;*/
+	    /*outline: none;*/
 
-  	padding: 30px 0px;
-  	font-size: 50px ;
-  	color: #39A385 ;
-  }
+	    /*background: white;*/
+	    cursor: hand;
+	    display: block;
 
-  .file-options .btn{
+		
 
-  	padding:3px 8px !important;
-  	background: none;
-  	border: 1px solid grey; 
-  	color: grey;
-  }
-  #afterDrop .btn-group{
-  	padding:5px 4px;
-  	margin-top: 5px;
-  	margin-bottom: 5px;
-  }
+	}
 
-#the-canvas{
-	width: 100%;
-	height:100%;
-	padding: 15px;
-}
+	.small-font-13{
+		font-size: 12px !important;
+	}
 
-.pdf_image_holder{
-	padding: 0px 40px;
-}
+	  .uploaded_symbol{
 
-.pdf-holder{
-	width: 60%;
-	height: 95%;
-}
-.modal-content{
-	margin-top:-20px;
-	padding-top: 0px;
-}
+	  	padding: 30px 0px;
+	  	font-size: 50px ;
+	  	color: #39A385 ;
+	  }
 
-.pdf-info{
-	margin-top:40px; 
-	padding: 15px;
-}
+	  .file-options .btn{
 
-.modal-footer{
-	/*position: absolute;*/
-	margin-top: -60px !important;
-	margin-right: 35px;
-	/*padding:10px 20px;*/
-}
+	  	padding:3px 8px !important;
+	  	background: none;
+	  	border: 1px solid grey; 
+	  	color: grey;
+	  }
+	  #afterDrop .btn-group{
+	  	padding:5px 4px;
+	  	margin-top: 5px;
+	  	margin-bottom: 5px;
+	  }
 
-.file-submit-btn{
-	position: relative;
-	background: lightgrey;
-	color:grey;
-	/*z-index:3;*/
-	border:1px solid grey !important;
-	margin-top: -40px;
-	margin-left: 255px;
-	border-radius: 50px !important;
-	height:66px;
-}
+	#the-canvas{
+		width: 100%;
+		height:100%;
+		padding: 15px;
+	}
 
-#docForm{
-	/*z-index:2; */
-	padding: 15px;
-	padding-bottom: 50px;
-	/*border: 1px solid lightgrey;*/
-	border-top: none;
-	margin-bottom: 30px;
-}
-/*========================*/
+	.pdf_image_holder{
+		padding: 0px 40px;
+	}
 
-.spinner {
-    width: 40px;
-    height: 40px;
-    position: relative;
-    margin: 0px auto;
-    /*display:block;*/
-}
+	.pdf-holder{
+		width: 60%;
+		height: 95%;
+	}
+	.modal-content{
+		margin-top:-20px;
+		padding-top: 0px;
+	}
 
-.double-bounce1, .double-bounce2 {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    opacity: 0.6;
-    position: absolute;
-    top: 72px;
-    /*left: 30px;*/
-    -webkit-animation: bounceIn 2.0s infinite ease-in-out;
-    animation: bounceIn 2.0s infinite ease-in-out;
+	.pdf-info{
+		margin-top:40px; 
+		padding: 15px;
+	}
 
-}
-#innerLoading{
-	/*margin-top: 50px;*/
-}
+	.modal-footer{
+		/*position: absolute;*/
+		margin-top: -60px !important;
+		margin-right: 35px;
+		/*padding:10px 20px;*/
+	}
 
-.blueBack {
-    background-color: #39A385;
-}
-.double-bounce2 {
-    -webkit-animation-delay: -1.0s;
-    animation-delay: -1.0s;
-}
+	.file-submit-btn{
+		position: relative;
+		background: #9ED7C7 !important;
+				color: #8EC2B3;
+				opacity: 1 !important;
+		/*z-index:3;*/
+		border:1px solid #9ED7C7 !important;
+		margin-top: -40px;
+		margin-left: 255px;
+		border-radius: 50px !important;
+		height:66px;
+	}
 
-@keyframes bounceIn {
-  0% {
-    transform: scale(0.1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: .3;
-  }
-  100% {
-    transform: scale(.1);
-    opacity: 1;
-  }
-}
+	#docForm{
+		/*z-index:2; */
+		padding: 15px;
+		padding-bottom: 50px;
+		/*border: 1px solid lightgrey;*/
+		border-top: none;
+		margin-bottom: 30px;
+	}
+	/*========================*/
 
+	.spinner {
+	    width: 40px;
+	    height: 40px;
+	    position: relative;
+	    margin: 0px auto;
+	    /*display:block;*/
+	}
+
+	.double-bounce1, .double-bounce2 {
+	    width: 100%;
+	    height: 100%;
+	    border-radius: 50%;
+	    opacity: 0.6;
+	    position: absolute;
+	    top: 72px;
+	    /*left: 30px;*/
+	    -webkit-animation: bounceIn 2.0s infinite ease-in-out;
+	    animation: bounceIn 2.0s infinite ease-in-out;
+
+	}
+	#innerLoading{
+		/*margin-top: 50px;*/
+	}
+
+	.blueBack {
+	    background-color: #39A385;
+	}
+	.double-bounce2 {
+	    -webkit-animation-delay: -1.0s;
+	    animation-delay: -1.0s;
+	}
+
+	@keyframes bounceIn {
+	  0% {
+	    transform: scale(0.1);
+	    opacity: 1;
+	  }
+	  50% {
+	    transform: scale(1.2);
+	    opacity: .3;
+	  }
+	  100% {
+	    transform: scale(.1);
+	    opacity: 1;
+	  }
+	}
+
+	.upload-btn-activated{
+		background: #39A385 !important;
+		color: white;
+		border: 1px solid #39A385 !important;
+	}
 </style>
 
 {% endblock %}
@@ -679,17 +716,16 @@
 							      <div class="pdf_image_holder">
 							      <img src="{% static 'images/pdf-symbol.png' %}" class="img-responsive"  alt="reuse">
 							      </div>
-							      <!-- <label class="upload-btn" ng-click="fileUpload()"><p class="upload-text">Upload</p></label> -->
+							  
 							     <span class="btn btn-default btn-file">
 								    Upload  
-								    <input id="id_display_doc" name="display_doc" type="file" />
+								    <input id="id_display_doc_dupe" class="file-upload" name="upload" type="file" />
 								</span>
 
 
-							      <!-- <input id="id_display_doc" name="display_doc" type="file" /> -->
 						      	</div>
 						      	<div id="uploading" style="display:none">
-						      		<!-- ============================== -->
+					      		<!-- =========== start -> css bouncer =================== -->
 
 						        	<div id="innerLoading" ng-controller="loadingCtrl"> 
 		  								<div class="spinner">
@@ -698,7 +734,7 @@
 		 								 </div>
 		 							</div>
  							
-  							<!-- ============================== -->
+  								<!-- ============ stop -> css bouncer ================== -->
 						      	</div>	
 						      	<div id="afterDrop" style="display:none">
 							        <h4 class="instruction">File Uploaded</h4>
@@ -707,25 +743,21 @@
 										<button class="view-btn btn btn-sm" >
 											View
 										</button>
-										<button class="view-btn btn btn-sm" >
+										<button class="btn btn-sm class-change-file " >
+											
 											Change
 										</button>
-										<button class="view-btn btn btn-sm" >
+										<button class="remove-btn btn btn-sm" >
 											Remove
 										</button>
 									  
+										<input id="myinput" class="file-upload" name="change" type="file" style="display:none;"/>
 									</div>
 							    	
 							    </div>
 							      
 						    </span>
-					  	</div><!--  end - .file_holder -->
-
-
-				        <!-- <div class="input-holder ">
-				           <div class="inline-label">File name</div>
-				          <input id="id_name" class="form-control custom-input" maxlength="200" name="name" type="text" />
-				        </div> -->
+					  	</div><!--  end -> .file_holder -->
 
 				        <div>
 				        	<div class="row">
@@ -783,42 +815,44 @@
 					          	</div>
 				        	</fieldset>
 			        	</div>
-			        	<div class="input-holder ">
-				        	 <div class="inline-label">tags</div>
-				        	<input  class="form-control custom-input" type="text" multiple="multiple"  id="id_tags_proxy" placeholder="tags"/>
-				        </div>
+			        	<div class="mandatory-fields2" style="display:none">
+				        	<div class="input-holder ">
+					        	 <div class="inline-label">tags</div>
+					        	<input  class="form-control custom-input" type="text" multiple="multiple"  id="id_tags_proxy" placeholder="tags"/>
+					        </div>
 
-				        <div class="input-holder ">
-				        	 <div class="inline-label">topics</div>
-				        	<input type="text" class="form-control custom-input" multiple="multiple"  id="id_topics_proxy" placeholder="topics"/>
-				        </div>
-				        <div class="row">
-				          	<div class="col-md-6">
-			            		<div class="input-holder ">
-			            			<div class="inline-label">course</div> 
-					            	<input  class="form-control custom-input" type="text" multiple="multiple" id="id_courses_proxy" placeholder="course"/>
-				            	</div>
-				          	</div>
-				          	<div class="col-md-6">
-					            <div class="input-holder ">
-			            			<div class="inline-label">university</div>
-					            	<input  placeholder="university" class="form-control custom-input" type="text" multiple="multiple" id="id_universitys_proxy" />
-					            </div>
-				          	</div>
-				        </div>
+					        <div class="input-holder ">
+					        	 <div class="inline-label">topics</div>
+					        	<input type="text" class="form-control custom-input" multiple="multiple"  id="id_topics_proxy" placeholder="topics"/>
+					        </div>
+					        <div class="row">
+					          	<div class="col-md-6">
+				            		<div class="input-holder ">
+				            			<div class="inline-label">course</div> 
+						            	<input  class="form-control custom-input" type="text" multiple="multiple" id="id_courses_proxy" placeholder="course"/>
+					            	</div>
+					          	</div>
+					          	<div class="col-md-6">
+						            <div class="input-holder ">
+				            			<div class="inline-label">university</div>
+						            	<input  placeholder="university" class="form-control custom-input" type="text" multiple="multiple" id="id_universitys_proxy" />
+						            </div>
+					          	</div>
+					        </div>
+			        	</div> <!-- stop -> mandatory-fields2 -->
 				        <!-- start - note related fields -->
 				          	<div id="notes_related" style="display: none;">
-					             <div class="input-holder ">
-					                 <div placeholder="author" class="inline-label">author</div>
-					                <input id="id_author_names" class="form-control custom-input" name="author_names" >
-					                </textarea>
+					             <div class="input-holder">
+					                 <div class="inline-label">author</div>
+					                <input placeholder="Notes Owner"  id="id_author_names" class="form-control custom-input" name="author_names" />
+					                
 					            </div>
 				          	</div>
 					        <!-- stop - note related fields -->
 
 					        <!-- start - text related fields -->
 			          		<div id="textbook_related" style="display: none;" >
-				              	<div class="input-holder ">
+				              	<div class="input-holder">
 					                <div class="inline-label">page ranges</div>
 					                <input placeholder="page.no range" id="id_pageNoRange"class="form-control custom-input" maxlength="100" name="pageNoRange" type="text" />
 			              		</div>
@@ -852,7 +886,9 @@
 					    
 		    	</div> <!-- stop - .row -->
 		    	 </div>
-		    	 <input class="btn  file-submit-btn" type="submit" value="Upload" />
+
+		    	 
+		    	 <input class="btn  file-submit-btn" type="submit" value="Upload" disabled/>
 			</form>
 
 		</div>	      
@@ -860,6 +896,7 @@
 
 	    <div class="fixed1 border">
          	<div id="right_sidebar" class="col-md-12 border">
+
  				<div class="right_top_btns">
  				</div>
 				<div class="filter border">
@@ -868,100 +905,10 @@
 						<button class=" btn btn-lg newsbtn mainbtn">News</button>
 					</div>
 				
-					<div class="btn-group filter_choices" data-toggle="buttons">
-						  <label class="btn btn-primary  btn-sm namebtn ">
-						    <input type="radio" name="options" id="id_namebtn" autocomplete="off" checked> name
-						  </label>
-						  <label class="btn btn-primary btn-sm datebtn">
-						    <input type="radio" name="options" id="option2" autocomplete="off"> date
-						  </label>
-						  <label class="btn btn-primary btn-sm pricebtn">
-						    <input type="radio" name="options" id="option3" autocomplete="off"> price
-						  </label>
-
-						  <label class="btn btn-primary btn-sm tagsbtn">
-						    <input type="radio" name="options" id="option3" autocomplete="off"> tags
-						  </label><label class="btn btn-primary btn-sm topicsbtn">
-						    <input type="radio" name="options" id="option3" autocomplete="off"> topic
-						  </label>
-					</div>
 					<br><br>
 					<div id="search_body" class="class_search_body container col-sm-12">
 
-						<div id="name_search" class="col-sm-12 " style="display: none;">
-
-							<label for="id_name_search">Search by File Name:</label> 
-			          		<input id="id_name_search" class="form-control" name="name_search" type="text" />
-			          		<br>
-						</div>
-						<div id="date_search" class="col-sm-12 " style="display: none;">
-
-							<label for="id_nearest_college">Search by Date:</label> 
-							<ul class="nav nav-tabs date_tabs">
-								  <li role="presentation" class="active"><a href="#on_date">on</a></li>
-								  <li role="presentation"><a href="#before_date">before</a></li>
-								  <li role="presentation"><a href="#after_date">after</a></li>
-								  <li role="presentation"><a href="#between_date">between</a></li>
-
-							</ul>
-							<div class="tab-content">
-							    <div role="tabpanel" class="tab-pane active" id="on_date">
-							    	<br>
-							    	<label for="id_on_date_search">File uploaded on:</label> 
-							    	<input id="id_on_date_search" class="form-control datepicker" name="on_input" type="text" />
-							    </div>
-							    <div role="tabpanel" class="tab-pane" id="before_date">
-							    	<br>
-							    	<label for="id_before_date_search">File uploaded before:</label> 
-							    	
-							    	<input id="id_before_date_search" name="before_input" type="text" class=" form-control datepicker"></p>
-							    </div>
-							    <div role="tabpanel" class="tab-pane" id="between_date">
-							    	<br>
-							    	<label for="id_between_date_search">File uploaded between:</label> 
-							    	<input id="id_start_between_date_search" class="form-control  datepicker" name="nearest_college" type="text" /><br>
-							    	and <br><br>
-							    	<input id="id_end_between_date_search" class="form-control  datepicker" name="nearest_college" type="text" />
-							    </div>
-							    <div role="tabpanel" class="tab-pane" id="after_date">
-							    	<br>
-							    	<label for="id_after_date_search">File uploaded after:</label> 
-							    	<input id="id_after_date_search" class="form-control datepicker" name="after_input" type="text" />
-							    </div>
-						  	</div>
-							
-							<br><br>
-			          		
-			          		<br>
-						</div> <!-- end date_search -->
-						<br>
-						<div id="price_search" class="col-sm-12 " style="display: none;">
-							<div class="row">
-								<div class="col-md-4">
-									<input class="form-control" id="id_price_min" value="" disabled/>
-								</div>
-								<div class="col-md-4 pull-right">
-									<input  class="form-control" id="id_price_max" value="" disabled/>
-								</div>
-							</div>
-							<br>
-							<div id="range"></div>
-							<br>
-							<br>
-							<br>
-						</div> <!-- end price_search -->
-						<div id="type_search" class="col-sm-12 " style="display: none;">
-								this is type
-						</div> <!-- end tags_search -->
-						<div id="tags_search" style="display: none;">
-								<div id="tags" class="col-sm-12 ">
-						        	<label for="id_tags_proxy">Tags:</label> 
-						        	<input  class="form-control" type="text" multiple="multiple" id="id_tags_proxy" />
-						        </div>
-						</div> <!-- end tags_search -->
-						<div id="topics_search" class="col-sm-12 " style="display: none;">
-								this is topics
-						</div> <!-- end tags_search -->
+						
 					</div> <!-- end search_body -->
 				</div>
 			</div>
@@ -978,13 +925,24 @@
 
 
 {% block javascript %}
-<script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?AIzaSyBCSR9MrS1OxOiLSezXTOFKtkpDZAzGruE&sensor=true"></script>
+
 
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
  
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   
   <script>
+
+  var shopRate = parseFloat('{{rate}}')
+  
+
+  $('#right_sidebar').children().attr('disabled','disabled')
+  $('.class-change-file').click(function(e){
+  	
+  	e.preventDefault();
+  	$('#myinput').trigger('click')
+  })
+
 
   PDFJS.workerSrc = "http://mozilla.github.io/pdf.js/build/pdf.worker.js";
   
@@ -1066,28 +1024,60 @@
   }
   document.getElementById('next').addEventListener('click', onNextPage);
 
+// ======================= start - remove file & reset form =========================
+	
+		$('.remove-btn').click(function(e){
+			e.preventDefault();
+			$('#afterDrop').hide()
+			$('#uploading').show()
 
+			$('#docForm')[0].reset();
+			$('.right-form').hide();
+			setTimeout(function(){
+				$('#uploading').hide()
+				$('#beforeDrop').show()
+			},1000)
 
-  	// ======= start - extracting file name =======
-  		$('.btn-file :file').on('change',function(e) {
-		    var input = $(this),
+			// alert("yes")
+		})
+
+// ======================= stop - remove file & reset form =========================
+
+  	// ======= start - extracting file name / css boucer / calculate price =======
+  	localStorage.setItem("currentFile","nothing")
+  		$(document).on('change','.file-upload',function(e) {
+
+  			
+  			if($(this).val()!=""){
+  				var input = $(this),
 		        numFiles = input.get(0).files ? input.get(0).files.length : 1,
 		        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
 		    	input.trigger('fileselect', [numFiles, label]);
 
 		    	var tempurl = window.URL.createObjectURL($(this)[0].files[0]);
 
-					// =======================================================
+		    	var original_this_name = $(this).attr('name') 
+  				$('#id_display_doc').remove()
+  				$(this).attr({'id':'id_display_doc','name':'display_doc'}).css('display','none')
+  				// alert()
+  				
+  				if(original_this_name=="upload"){
 
-		   				// $("#the-canvas").css("visibility","visible")
-						
+  				$('.btn-file').append('<input id="id_display_doc_dupe"  class="file-upload" name="upload" type="file" />')
+  				}else{
+  				$('#myinput').remove()	
+  				$('.file-options').append('<input id="myinput" class="file-upload" name="change" type="file" style="display:none;" />')
 
+  				}
 
+				// =============== start -> document uploader ==================
+		   			
 						  PDFJS.getDocument(tempurl).then(function (pdfDoc_) {
 							    pdfDoc = pdfDoc_;
 							    document.getElementById('page_count').textContent = pdfDoc.numPages;
 
 						    	$('#id_pages').val(pdfDoc.numPages)
+						    	$('#id_price').val(shopRate*pdfDoc.numPages)
 						    	$('#id_pages_viewer').html(pdfDoc.numPages)
 						    	$('#uploading').hide()
 						    	$('#afterDrop').show()
@@ -1095,18 +1085,16 @@
 							    // Initial/first page rendering
 							    renderPage(pageNum);
 							  });
-						    
-						    
 
-					
-						
-					// 
-					// =====================================================
+				// ================ stop -> document uploader =====================
 
+  			}
+  			
 				});
 
-  		$('.btn-file').on('fileselect', function(event, numFiles, label) {
-
+  		$(document).on('fileselect', '.file-upload',function(event, numFiles, label) {
+  		
+  			$('#afterDrop').hide()
   			$('#beforeDrop').hide()
   			$('#uploading').show()
 
@@ -1118,15 +1106,15 @@
       		$("#id_price").siblings().css('visibility','visible')
 
     	});
-    // ======= stop - extracting file name =======
+    // ======= stop - extracting file name/ css boucer / calculate price =======
 
 
 	// ======= start - overlapping label for inputs =======
+
 		$( ".custom-input" ).focus(function() {
 		   $(this).siblings().css('visibility','visible')
 		    $(this).data('placeholder',$(this).attr('placeholder'))
           .attr('placeholder','');
-		   // $(this).attr('placeholder','')
 		 
 		});
 		$( ".custom-input" ).focusout(function() {
@@ -1141,12 +1129,40 @@
 
   $(function() {
 
-  	// ================ Upload Form Checker =================
+
+  	// =================== start -> upload button activator ============
+  		$('.custom-input').focusout(function(){
+  			field_missing = []
+  			fields = ['id_name','id_pages','id_price','id_tags_proxy','id_topics_proxy','id_courses_proxy','id_universitys_proxy']
+  			for(var field in fields)
+		{
+			
+			
+			if($('#'+fields[field]).val() == '')
+			{
+				
+		
+				field_missing.push(fields[field]) 
+			}
+		}
+
+		if(field_missing.length == 0)
+
+			$('.file-submit-btn').prop('disabled', false).addClass('upload-btn-activated')
+		else{
+			$('.file-submit-btn').removeClass('upload-btn-activated').prop('disabled', true)
+		}
+
+  		})
+
+  	// =================== stop -> upload button activator ============
+
+  	// ================ start -> Upload Form Checker =================
 
   	
 
   	$('.file-submit-btn').click(function(e){
-  		alert("yup")
+  		
   		fields = ['id_name','id_pages','id_tags_proxy','id_topics_proxy','id_courses_proxy','id_universitys_proxy']
   		real_names = ['file name','pages','tags','topics','course','university']
   		var field_missing = []
@@ -1154,21 +1170,33 @@
   		for(var field in fields)
 		{
 			
-			// alert($(fields[field]).val())
-			// console.log("values are",document.forms["docForm"][fields[field]].value)
+			
 			if($('#'+fields[field]).val() == '')
 			{
 				e.preventDefault()
-		// 		alert("missing")
-		// 		
+		
 				field_missing.push(real_names[field]) 
 			}
 		}
-		// alert("Please fill the following fields :" + field_missing)
-		$('.msg-bus').html("Please fill the following fields : "+field_missing.join(", "))
+		
+		
+		if(field_missing.length > 0){
+			
+			$('.msg-bus').trigger('msngr-on',["alert",field_missing])
+		}
   	})
 
-  	// =======================================================
+  	$('.msg-bus').on('msngr-on',function(event,type,field_missing){
+  		alert("reached here")
+  		$('.msg-bus').html("Please fill the following fields : "+field_missing.join(", "))
+  		$('.msg-bus').show()
+  		setTimeout(function(){
+  			$('.msg-bus').hide()
+  		},10000)
+  	})
+
+
+  	// ================ stop -> Upload Form Checker =======================================
 
   	$('.view-btn').click(function(e){
   		e.preventDefault()
@@ -1176,11 +1204,15 @@
   		$('.map-modal').modal('show');
   	})
     $('#notebtn').click(function(){
+
           $('#textbook_related').hide()
+          $('.mandatory-fields2').show(); 
           $('#notes_related').show()
     })
-    $('#textbookbtn').click(function(){     
+    $('#textbookbtn').click(function(){  
+
           $('#notes_related').hide()
+          $('.mandatory-fields2').show(); 
           $('#textbook_related').show()
     })
 
@@ -1235,8 +1267,7 @@ function split( val ) {
 
               $("#docForm").append('<input id="'+ ui.item.value +'" type="text" value="'+ dictionary[ui.item.value][1] +'" name="tags"  hidden/>')
 
-              // $('#'+ui.item.value).attr('value', dictionary[ui.item.value][1])
-              // .val('2 2');
+          
               return false;
           }
         }); 

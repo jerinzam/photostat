@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Organization, Shop, Publisher, Tag, City, Topic, University, College, Course, Branch, DocType, Document, UserProfile, Service
+from .models import *
 # Register your models here.
 
 
@@ -23,10 +23,12 @@ class CourseAdmin(admin.ModelAdmin):
 	prepopulated_fields = {"slug": ("name",)}
 class CityAdmin(admin.ModelAdmin):
 	prepopulated_fields = {"slug": ("name",)}
+class OrderAdmin(admin.ModelAdmin):
+	list_display = ('orderNo','customer','shop','qty','price','is_new','is_accepted','is_printed','is_delivered')
 
 
+admin.site.register(Order,OrderAdmin)
 admin.site.register(City,CityAdmin)
-
 admin.site.register(Organization)
 admin.site.register(Shop)
 admin.site.register(Service,ServiceAdmin)

@@ -28,8 +28,7 @@ class ShopForm(forms.Form):
                              label=_(u'email address'), required=False)
     
     address = forms.CharField(widget= forms.Textarea())
-    pincode = forms.CharField(max_length=6, widget=forms.PasswordInput(attrs={'class': 'mandatory', 'placeholder': 'pincode'}),
-    required=False)
+    pincode = forms.IntegerField()
     
     nearest_college = forms.CharField(max_length=200, required=False)
     
@@ -74,6 +73,11 @@ class ShopForm(forms.Form):
           #       pass
        #  return self.cleaned_data["email"]
 
+class ShopEditForm(forms.ModelForm):
+    class Meta:
+        model = Shop
+        exclude = ['latitude','longitude','is_active']
+
 @login_required
 def indexEmp(request):
     context = {'shop':shopid}
@@ -102,10 +106,12 @@ def docUpload(request):
             return HttpResponseRedirect(reverse('documentListEmp'))
     else:
         form = DocUploadForm()
-        context = { "docUploadForm" : form }
         if(user.userType == 1 ):
+            context = { "docUploadForm" : form}
             return render(request,'printo_app/docUpload-owner.html',context)
         if(user.userType == 2 ):
+            shopRate = Shop.objects.get(employee=request.user).rate
+            context = { "docUploadForm" : form,"rate":shopRate }
             return render(request,'printo_app/docUpload-emp.html',context)
 
 @login_required
@@ -118,9 +124,19 @@ def docList(request):
         return render(request,'printo_app/docList-owner.html',context)
     elif(user.userType == 2):
         org = Organization.objects.get(employee = request.user)
-    docList = Document.objects.filter(is_public=True).filter(organization=org)
+    docList = Document.objects.filter(is_public=True).filter(organization=org).order_by('-uploadedDate')
+    
     context = {"docs":docList}
     return render(request,'printo_app/docList-emp.html',context)
+
+@login_required
+def docListOwner(request):
+    user = UserProfile.objects.get(user=request.user)
+    if(user.userType == 1  ):
+        org = Organization.objects.get(owner = request.user)
+        docList = Document.objects.filter(is_public=True).filter(organization=org)
+        context = {"docs":docList}
+        return render(request,'printo_app/docList-owner.html',context)
 
 @login_required
 def docDetail(request,docid):
@@ -145,8 +161,8 @@ def shopProfile(request,shopid=None):
         pass
     elif(user.userType == 2):
         shop = Shop.objects.get(employee=request.user)
-        shopForm = ShopEditForm(instance=shop)
-        context = {'shopForm':shopForm}
+        shopForm = ShopEditForm()
+        context = {'shopForm':shopForm,'details':shop}
         return render(request,'printo_app/shopProfile.html',context)
 
 @login_required
@@ -165,11 +181,17 @@ def indexEmp(request,shopid=None):
     elif(user.userType == 2):
         is_owner = False
         context = {'is_owner':is_owner}
-    return HttpResponseRedirect(reverse('ordersList'))
+    return HttpResponseRedirect(reverse('orderList'))
 
 @login_required
-def ordersList(request,shopid=None):
-    context = {}
+def orderList(request,shopid=None):
+    shop = Shop.objects.get(employee = request.user)
+    orderList = Order.objects.filter(shop=shop)
+    new_count = orderList.filter(is_new=True).count()
+    pending_count = orderList.filter(is_accepted=True).count()
+    completed_count = orderList.filter(is_printed=True).count()
+    delivered_count = orderList.filter(is_delivered=True).count()
+    context = {"orders":orderList,"new_count":new_count,"pending_count":pending_count,"completed_count":completed_count,"delivered_count":delivered_count}
     return render(request,'printo_app/ordersList.html',context)
 
 @login_required
@@ -189,14 +211,15 @@ def shopCreate(request):
     
     if(request.method=='POST'):
         form = ShopForm(request.POST)
-        # import ipdb; ipdb.set_trace()
+        import ipdb; ipdb.set_trace()
         if(form.is_valid()):
             username = form.cleaned_data.get("username", None)
             password = form.cleaned_data.get("password", None)
             telephone = form.cleaned_data.get("telephone", None)
-            email = form.cleaned_data.get("email", None)
-            if email == None:
-                email = request.user.email
+            email = request.user.email
+            # email = form.cleaned_data.get("email", None)
+            # if email == None:
+                # email = request.user.email
             if username != None:
                 user = User.objects.create_user(username=username,email=email, password=password)
         
@@ -211,7 +234,10 @@ def shopCreate(request):
             shopprofile = Shop()
             shopprofile.employee = user
             shopprofile.owner = Organization.objects.get(owner = request.user)
+            shopprofile.email = email
             shopprofile.shopName = form.cleaned_data.get("shopName", None)
+            shopprofile.pincode = form.cleaned_data.get("pincode",None)
+            shopprofile.address = form.cleaned_data.get("address",None)
             shopprofile.latitude = form.cleaned_data.get("latitude",None)
             shopprofile.longitude = form.cleaned_data.get("longitude",None)
             shopprofile.telephone = form.cleaned_data.get("telephone",None)

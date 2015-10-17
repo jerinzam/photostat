@@ -97,7 +97,6 @@ class Publisher(models.Model):
         super(Publisher, self).save()
     def __str__(self):
         return self.name
-
 	
 class Tag(models.Model):
     name = models.CharField(max_length=200, unique=True)
@@ -198,6 +197,29 @@ class Document(models.Model):
 
     def __str__(self):
 	    return self.name
+
+class Order(models.Model):
+    PRINT_TYPE_CHOICES = ((1,'one-side'),(2,'two-side'))
+    # uuid(below)
+    orderNo = models.CharField(max_length=60, unique=True, blank=True)
+    customer = models.CharField(max_length=20)
+    shop = models.ForeignKey(Shop)
+    orderDate = models.DateTimeField(auto_now_add=True,null=True)
+    qty = models.IntegerField(default=1)
+    price = models.IntegerField()
+    document = models.ManyToManyField(Document)
+    printType = models.IntegerField(choices=PRINT_TYPE_CHOICES,default=1)
+    is_new = models.BooleanField(default=False)
+    is_accepted = models.BooleanField(default=False)
+    is_printed = models.BooleanField(default=False)
+    is_delivered = models.BooleanField(default=False)
+
+
+
+
+
+
+
 
 
 	
